@@ -9,7 +9,7 @@ public class DisplayInfo : MonoBehaviour
     private EarthNavigator earthNav;
     public TextMeshProUGUI headerText;
     public TextMeshProUGUI bodyText;
-    public LandmarkLibrary library;
+    public TopicLibrary library;
 
     public GameObject infoBackButton;
 
@@ -21,16 +21,24 @@ public class DisplayInfo : MonoBehaviour
     public void DisplayInfobox(int key)
     {
         earthNav.playMode = EarthNavigator.PlayMode.INFO;
-        headerText.text = library.landmarkLibrary[key][0];
-        bodyText.text = library.landmarkLibrary[key][1];
+        headerText.text = library.topicLibrary[key][0];
+        bodyText.text = library.topicLibrary[key][1];
+
+        library.buttonImages[(int)library.currentTopic].color = new Color(1, 1, 1, 1);
+        library.currentTopic = (TopicLibrary.Topic)key;
+        library.buttonImages[key].color = new Color(1, 1, 1, 0.5f);
         infoBackButton.SetActive(true);
     }
 
     public void CloseInfobox()
     {
         earthNav.playMode = EarthNavigator.PlayMode.IDLE;
-        headerText.text = "UN System Topic 1";
-        bodyText.text = "More placeholder text~";
+        headerText.text = "The UN System";
+        bodyText.text = "" +
+            "Did you know that the UN is actually comprised of over 100 organizations, entities, " +
+            "and agencies working together all over the world? \n\nClick on one of the topics on the " +
+            "right to learn about how the UN is addressing these global issues.";
+
         infoBackButton.SetActive(false);
     }
 }

@@ -26,31 +26,33 @@ public class EarthNavigator : MonoBehaviour
     {
         if (playMode == PlayMode.INFO)
         {
+            if (Input.GetMouseButton(0))
+            {
+                mPosDelta = Input.mousePosition - mPrevPos;
+                transform.Rotate(transform.up, -Vector3.Dot(mPosDelta, Camera.main.transform.right), Space.World);
+            }
+            mPrevPos = Input.mousePosition;
             return;
         }
 
         if (playMode == PlayMode.IDLE)
         {
-            if (Time.time - timeOfLastMove >= maxWaitTime) playMode = PlayMode.RESET;
+            // if rotating along axis, don't need to reset
+/*            if (Time.time - timeOfLastMove >= maxWaitTime) playMode = PlayMode.RESET;
             timeSinceReset = 0;
-            startRotation = transform.rotation;
+            startRotation = transform.rotation;*/
+
+            if (Time.time - timeOfLastMove >= maxWaitTime) playMode = PlayMode.ROTATING;
         }
 
         if (playMode == PlayMode.RESET)
         {
-            /*Vector3 newAngle = Vector3.RotateTowards(transform.eulerAngles, restPosition, 10, 0);
-            transform.eulerAngles = newAngle;*/
-
             transform.rotation = Quaternion.Slerp(startRotation, restRotation, timeSinceReset);
             timeSinceReset += Time.deltaTime;
             if (timeSinceReset >= 1)
             {
                 playMode = PlayMode.ROTATING;
             }
-            /*if (Vector3.Angle(transform.rotation.eulerAngles, restRotation) <= 20)
-            {
-                playMode = PlayMode.ROTATING;
-            }*/
         }
 
         if (playMode == PlayMode.ROTATING)
@@ -58,15 +60,20 @@ public class EarthNavigator : MonoBehaviour
             transform.Rotate(new Vector3(0, Time.deltaTime * -10, 0));
         }
 
-        if (Input.GetMouseButton(0))
+        if (playMode != PlayMode.INFO)
         {
-            playMode = PlayMode.IDLE;
-            timeOfLastMove = Time.time;
-            mPosDelta = Input.mousePosition - mPrevPos;
-            transform.Rotate(transform.up, -Vector3.Dot(mPosDelta, Camera.main.transform.right), Space.World);
-            transform.Rotate(Camera.main.transform.right, Vector3.Dot(mPosDelta, Camera.main.transform.up), Space.World);
-        }
+            if (Input.GetMouseButton(0))
+            {
+                playMode = PlayMode.IDLE;
+                timeOfLastMove = Time.time;
+                mPosDelta = Input.mousePosition - mPrevPos;
 
-        mPrevPos = Input.mousePosition;
+                // only keeping rotation along axis
+                transform.Rotate(transform.up, -Vector3.Dot(mPosDelta, Camera.main.transform.right), Space.World);
+                // transform.Rotate(Camera.main.transform.right, Vector3.Dot(mPosDelta, Camera.main.transform.up), Space.World);
+            }
+
+            mPrevPos = Input.mousePosition;
+        }
     }
 }

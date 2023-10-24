@@ -18,8 +18,12 @@ public class LandmarkRotation : MonoBehaviour
         markerTransform = marker.GetComponent<RectTransform>();
         markerImage = marker.GetComponent<Image>();
         markerButton = marker.GetComponent<Button>();
+
         // assign random key
+        // TODO: edit this for a particular dataset
         marker.GetComponent<DisplayMarkerInfo>().idKey = Random.Range(1, 3);
+        marker.SetActive(false);
+
 /*        Debug.Log(Screen.height);
         Debug.Log(Screen.width);
         Debug.Log(Camera.main.pixelWidth);
@@ -30,7 +34,9 @@ public class LandmarkRotation : MonoBehaviour
     {
         // Debug.Log(transform.position.z);
 
-        if (transform.position.z > -9.2f)
+        if (!marker.activeSelf) return;
+
+        if (transform.position.z > -2f)
         {
             markerImage.enabled = false;
             markerButton.enabled = false;
@@ -46,5 +52,35 @@ public class LandmarkRotation : MonoBehaviour
         
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
         markerTransform.anchoredPosition = new Vector2(1920 * pos.x, 1080 * pos.y);
+    }
+
+    /*    private void OnDestroy()
+        {
+            Destroy(marker);
+        }*/
+
+    /*    private void OnEnable()
+        {
+            marker.SetActive(true);
+            markerImage.enabled = true;
+            markerButton.enabled = true;
+
+        }
+
+        private void OnDisable()
+        {
+            marker.SetActive(false);
+            markerImage.enabled = false;
+            markerButton.enabled = false;
+        }*/
+
+    public void EnableMarker()
+    {
+        marker.SetActive(true);
+    }
+
+    public void DisableMarker()
+    {
+        marker.SetActive(false);
     }
 }
