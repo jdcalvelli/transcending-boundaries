@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6111296272969779487}
   - component: {fileID: 7431490791599894697}
   - component: {fileID: 6322790439963295747}
-  - component: {fileID: 5885992366128068382}
+  - component: {fileID: 3036324765258984305}
   m_Layer: 5
-  m_Name: Marker
+  m_Name: EventMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5d85ca2389fadf44f992bb62e5e5a6c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 32c1ef7fc73af434d96f78d63e5882c3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -122,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5885992366128068382}
-        m_TargetAssemblyTypeName: DisplayMarkerInfo, Assembly-CSharp
-        m_MethodName: Display
+      - m_Target: {fileID: 3036324765258984305}
+        m_TargetAssemblyTypeName: EventUI, Assembly-CSharp
+        m_MethodName: UpdateEventInfoBox
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5885992366128068382
+--- !u!114 &3036324765258984305
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 9111316040930362406}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d42c4fd777b72274194e3e895acaeaf0, type: 3}
+  m_Script: {fileID: 11500000, guid: b96db76cd95435b469f7e3c2255aaae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

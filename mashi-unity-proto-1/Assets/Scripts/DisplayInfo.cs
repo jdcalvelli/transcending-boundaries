@@ -10,6 +10,8 @@ public class DisplayInfo : MonoBehaviour
     public TextMeshProUGUI headerText;
     public TextMeshProUGUI bodyText;
     public TopicLibrary library;
+    public TMP_Dropdown dropdown;
+    public GameObject eventInfoPanel;
 
     public GameObject infoBackButton;
 
@@ -28,6 +30,17 @@ public class DisplayInfo : MonoBehaviour
         library.currentTopic = (TopicLibrary.Topic)key;
         library.buttonImages[key].color = new Color(1, 1, 1, 0.5f);
         infoBackButton.SetActive(true);
+        OpenDropdown();
+    }
+
+    public void CloseDropdown()
+    {
+        if (dropdown.gameObject.activeSelf) dropdown.gameObject.SetActive(false);
+    }
+
+    public void OpenDropdown()
+    {
+        if (!dropdown.gameObject.activeSelf) dropdown.gameObject.SetActive(true);
     }
 
     public void CloseInfobox()
@@ -40,5 +53,7 @@ public class DisplayInfo : MonoBehaviour
             "right to learn about how the UN is addressing these global issues.";
 
         infoBackButton.SetActive(false);
+        eventInfoPanel.SetActive(false);
+        CloseDropdown();
     }
 }
