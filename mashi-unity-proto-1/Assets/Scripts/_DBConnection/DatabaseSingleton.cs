@@ -9,6 +9,7 @@ public class DatabaseSingleton : MonoBehaviour
 {
     // private set for Instance so that we cant override elsewhere
     public static DatabaseSingleton Instance { get; private set; }
+    public static string text;
 
     // built in unity event func
     private void Awake()
@@ -53,7 +54,8 @@ public class DatabaseSingleton : MonoBehaviour
             default:
                 // if there isnt an error, keep it rolling
                 // take the json object and serialize to class
-                print(JsonConvert.SerializeObject(request.downloadHandler.text));
+                // print(JsonConvert.SerializeObject(request.downloadHandler.text));
+                text = JsonConvert.SerializeObject(request.downloadHandler.text);
                 break;
         }
     }
