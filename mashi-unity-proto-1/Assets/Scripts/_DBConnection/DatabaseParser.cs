@@ -8,49 +8,49 @@ namespace DataJson
     public class Office
     {
         [JsonProperty(PropertyName = "Id")]
-        public int id;
+        public int Id { get; set; }
 
         [JsonProperty(PropertyName = "Title")]
-        public string title;
+        public string Title { get; set; }
     }
 
     public class Topic
     {
         [JsonProperty(PropertyName = "Id")]
-        public int id;
+        public int Id { get; set; }
 
         [JsonProperty(PropertyName = "Title")]
-        public string title;
+        public string Title { get; set; }
     }
 
     public class Impact
     {
         [JsonProperty(PropertyName = "Id")]
-        public int id;
+        public int Id{ get; set; }
 
         [JsonProperty(PropertyName = "Title")]
-        public string title;
+        public string Title { get; set; }
 
         [JsonProperty(PropertyName = "CreatedAt")]
-        public string createdAt;
+        public string CreatedAt { get; set; }
 
         [JsonProperty(PropertyName = "UpdatedAt")]
-        public string updatedAt;
+        public string UpdatedAt { get; set; }
 
         [JsonProperty(PropertyName = "Description")]
-        public string desc;
+        public string Desc { get; set; }
 
         [JsonProperty(PropertyName = "Location")]
-        public string loc;
+        public string Loc { get; set; }
 
         [JsonProperty(PropertyName = "Year")]
-        public int year;
+        public int Year { get; set; }
 
         [JsonProperty(PropertyName = "nc_prk2___topic-areas_id")]
-        public int topicId;
+        public int TopicId { get; set; }
 
         [JsonProperty(PropertyName = "nc_prk2___un-offices_id")]
-        public int officeId;
+        public int OfficeId { get; set; }
 
         [JsonProperty(PropertyName = "topic-areas")]
         public Topic Topic { get; set; }
@@ -60,9 +60,8 @@ namespace DataJson
 
     }
 
-    public class ImpactList
+    public class Root
     {
-        [JsonProperty(PropertyName = "list")]
-        public List<Impact> Impacts { get; set; }
+        public List<Impact> list { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 public class DatabaseTester : MonoBehaviour
 {
-    public DataJson.ImpactList impactData;
+    public DataJson.Root impactData;
     public ImpactList impactObjects;
     public bool isDataPopulating = false;
 
@@ -28,7 +28,7 @@ public class DatabaseTester : MonoBehaviour
                 isDataPopulating = true;
                 string jsonString = DatabaseSingleton.text;
                 print(jsonString);
-                impactData = JsonConvert.DeserializeObject<DataJson.ImpactList>(jsonString);
+                impactData = JsonConvert.DeserializeObject<DataJson.Root>(jsonString);
                 print("hello");
                 StartCoroutine(PopulateData());
             } else
@@ -40,30 +40,30 @@ public class DatabaseTester : MonoBehaviour
 
     public IEnumerator PopulateData()
     {
-        foreach (DataJson.Impact impact in impactData.Impacts)
+        foreach (DataJson.Impact impact in impactData.list)
         {
             Impact newImpact = new();
-            newImpact.id = impact.id;
-            newImpact.title = impact.title;
-            newImpact.createdAt = impact.createdAt;
-            newImpact.updatedAt = impact.updatedAt;
-            newImpact.desc = impact.desc;
-            newImpact.loc = impact.loc;
-            newImpact.year = impact.year;
-            newImpact.topicId = impact.topicId;
-            newImpact.officeId = impact.officeId;
+            newImpact.id = impact.Id;
+            newImpact.title = impact.Title;
+            newImpact.createdAt = impact.CreatedAt;
+            newImpact.updatedAt = impact.UpdatedAt;
+            newImpact.desc = impact.Desc;
+            newImpact.loc = impact.Loc;
+            newImpact.year = impact.Year;
+            newImpact.topicId = impact.TopicId;
+            newImpact.officeId = impact.OfficeId;
 
             newImpact.topic = new Topic();
             newImpact.office = new Office();
 
             Topic newTopic = new();
-            newTopic.id = impact.Topic.id;
-            newTopic.title = impact.Topic.title;
+            newTopic.id = impact.Topic.Id;
+            newTopic.title = impact.Topic.Title;
             newImpact.topic = newTopic;
 
             Office newOffice = new();
-            newTopic.id = impact.Office.id;
-            newTopic.title = impact.Office.title;
+            newTopic.id = impact.Office.Id;
+            newTopic.title = impact.Office.Title;
             newImpact.office = newOffice;
 
             impactObjects.impacts.Add(newImpact);
