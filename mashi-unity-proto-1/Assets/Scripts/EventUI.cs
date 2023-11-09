@@ -27,5 +27,6 @@ public class EventUI : MonoBehaviour
     public void OpenEventInfoBox()
     {
         eventPanel.SetActive(true);
+        earth.GetComponent<EarthNavigator>().ChangePlayMode(EarthNavigator.PlayMode.IMPACT);
     }
 }

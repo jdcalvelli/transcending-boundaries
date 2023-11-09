@@ -12,7 +12,7 @@ public class OrgFilter : MonoBehaviour
     private TMP_Dropdown dropdown;
     // private int lastDropdownValue;
 
-    public Dictionary<int, string> orgLibrary = new Dictionary<int, string>();
+    public Dictionary<int, string> orgLibrary = new();
 
     void Start()
     {
@@ -34,8 +34,14 @@ public class OrgFilter : MonoBehaviour
         StartCoroutine(ReplaceMarkers());
     }
 
+    public void DisableAllEvents()
+    {
+        StartCoroutine(DisableEvents());
+    }
+
     IEnumerator ReplaceMarkers()
     {
+        earthTransform.gameObject.GetComponent<EarthNavigator>().ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
         Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
         blurb.text = orgLibrary[dropdown.value];
 
@@ -61,5 +67,16 @@ public class OrgFilter : MonoBehaviour
             yield return null;
         }
         // lastDropdownValue = dropdown.value;
+    }
+
+    IEnumerator DisableEvents()
+    {
+        Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
+        foreach (Transform landmark in currentTopicTransform)
+        {
+            // landmark.gameObject.GetComponent<LandmarkObject>().DisableMarker();
+            landmark.gameObject.GetComponent<LandmarkObject>().HideEvents();
+            yield return null;
+        }
     }
 }

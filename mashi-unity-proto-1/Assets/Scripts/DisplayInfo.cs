@@ -22,7 +22,7 @@ public class DisplayInfo : MonoBehaviour
 
     public void DisplayInfobox(int key)
     {
-        earthNav.playMode = EarthNavigator.PlayMode.INFO;
+        earthNav.ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
         headerText.text = library.topicLibrary[key][0];
         bodyText.text = library.topicLibrary[key][1];
 
@@ -45,7 +45,7 @@ public class DisplayInfo : MonoBehaviour
 
     public void CloseInfobox()
     {
-        earthNav.playMode = EarthNavigator.PlayMode.IDLE;
+        earthNav.ChangePlayMode(EarthNavigator.PlayMode.IDLE);
         headerText.text = "The UN System";
         bodyText.text = "" +
             "Did you know that the UN is actually comprised of over 100 organizations, entities, " +

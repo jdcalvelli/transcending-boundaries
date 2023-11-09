@@ -32,7 +32,9 @@ public class LandmarkObject : MonoBehaviour
 
         int orgID = GetComponentInParent<TopicSetup>().GetOrgNumber(); // 
         marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
-        
+
+        markerImage.enabled = false;
+        markerButton.enabled = false;
         marker.SetActive(false);
 
         /*        Debug.Log(Screen.height);
