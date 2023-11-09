@@ -31,10 +31,16 @@ namespace DataJson
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
 
-        [JsonProperty(PropertyName = "CreatedAt")]
+        /*        [JsonProperty(PropertyName = "CreatedAt")]
+                public string CreatedAt { get; set; }
+
+                [JsonProperty(PropertyName = "UpdatedAt")]
+                public string UpdatedAt { get; set; }*/
+
+        [JsonIgnore]
         public string CreatedAt { get; set; }
 
-        [JsonProperty(PropertyName = "UpdatedAt")]
+        [JsonIgnore]
         public string UpdatedAt { get; set; }
 
         [JsonProperty(PropertyName = "Description")]

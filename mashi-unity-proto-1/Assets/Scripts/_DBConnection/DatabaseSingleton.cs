@@ -55,7 +55,8 @@ public class DatabaseSingleton : MonoBehaviour
                 // if there isnt an error, keep it rolling
                 // take the json object and serialize to class
                 // print(JsonConvert.SerializeObject(request.downloadHandler.text));
-                text = JsonConvert.SerializeObject(request.downloadHandler.text);
+                // text = JsonConvert.SerializeObject(request.downloadHandler.text);
+                text = request.downloadHandler.text;
                 break;
         }
     }

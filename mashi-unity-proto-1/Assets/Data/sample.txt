@@ -1,0 +1,42 @@
+{
+  "list": [
+    {
+      "Id": 1,
+      "Title": "Session of Connect with Respect in Sengerema and Ilala Secondary Schools (p15)",
+      "CreatedAt": "Invalid Date",
+      "UpdatedAt": "Invalid Date",
+      "Description": "A curriculum program to address school-related gender based violence, resulted in the rise in the awareness of resources and assistance against gender-based violence, and willingness to seek for help.",
+      "Location": "Tanzania",
+      "Year": 2021,
+      "nc_prk2___topic-areas_id": 1,
+      "nc_prk2___un-offices_id": 1,
+      "topic-areas": {
+        "Id": 1,
+        "Title": "children"
+      },
+      "un-offices": {
+        "Id": 1,
+        "Title": "UNESCO"
+      }
+    },
+    {
+      "Id": 2,
+      "Title": "Education in Ukraine (last para.)",
+      "CreatedAt": "Invalid Date",
+      "UpdatedAt": "Invalid Date",
+      "Description": "Between October 2022 and January 2023, UNESCO facilitated the delivery of 50,528 Chromebooks donated by Google to teachers in need in 25 regions of Ukraine. As a follow up and with the support of Google.org, UNESCO is training 50,000 teachers on digital pedagogy. UNESCO is training 15,000 school psychologists, building capacity for 20,000 school personnel, parents, and caretakers, and reaching 160,000 vulnerable children with MHPSS services. UNESCO also mobilized its Global Education Coalition, where 25 members provided resources to Ukraine including computers for teachers, scholarships for learners, free access to accredited courses and education platforms, and translation of educational resources.",
+      "Location": "Ukraine",
+      "Year": 2023,
+      "nc_prk2___topic-areas_id": 1,
+      "nc_prk2___un-offices_id": 1,
+      "topic-areas": {
+        "Id": 1,
+        "Title": "children"
+      },
+      "un-offices": {
+        "Id": 1,
+        "Title": "UNESCO"
+      }
+    }
+  ]
+}
