@@ -14,6 +14,9 @@ public class EventObject : MonoBehaviour
 
     private GameObject earth;
 
+    private string eventTitle = "";
+    private string eventDesc = "";
+
     private void Awake()
     {
         earth = GameObject.Find("Earth");
@@ -52,6 +55,19 @@ public class EventObject : MonoBehaviour
 
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
         eventMarkerTransform.anchoredPosition = new Vector2(1920 * pos.x, 1080 * pos.y);
+    }
+
+    public void SetEventDetails(string title, string desc)
+    {
+        eventTitle = title;
+        eventDesc = desc;
+        StartCoroutine(WaitToSetText(title, desc));
+    }
+
+    IEnumerator WaitToSetText(string title, string desc)
+    {
+        while (eventMarker == null) yield return null;
+        eventMarker.GetComponent<EventUI>().SetInfoText(title, desc);
     }
 
     public void EnableEventMarker()

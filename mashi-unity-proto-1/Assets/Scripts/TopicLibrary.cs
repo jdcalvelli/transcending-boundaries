@@ -26,9 +26,9 @@ public class TopicLibrary : MonoBehaviour
 
         // landmarkPlacer.GenerateRandomLandmarks();
 
-        topicLibrary.Add(0, new List<string> { "Topic 1", "This is a thoughtful introduction to the topic!" });
-        topicLibrary.Add(1, new List<string> { "Topic 2", "This is a thoughtful introduction to the topic!" });
-        topicLibrary.Add(2, new List<string> { "Topic 3", "This is a thoughtful introduction to the topic!" });
+        topicLibrary.Add(0, new List<string> { "Children", "This is a thoughtful introduction to the topic!" });
+        topicLibrary.Add(1, new List<string> { "Refugees", "This is a thoughtful introduction to the topic!" });
+        topicLibrary.Add(2, new List<string> { "Gender", "This is a thoughtful introduction to the topic!" });
         topicLibrary.Add(3, new List<string> { "Topic 4", "This is a thoughtful introduction to the topic!" });
         topicLibrary.Add(4, new List<string> { "Topic 5", "This is a thoughtful introduction to the topic!" });
 

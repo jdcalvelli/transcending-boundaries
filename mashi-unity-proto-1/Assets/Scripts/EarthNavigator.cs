@@ -28,8 +28,15 @@ public class EarthNavigator : MonoBehaviour
     {
         // consider making TransitionTo function for navigating states
 
-        if (playMode == PlayMode.IMPACT) return;
-
+        if (playMode == PlayMode.IMPACT)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                GetComponent<DisplayInfo>().CloseEventInfoPanel();
+                playMode = PlayMode.TOPIC;
+            }
+            return;
+        }
         if (playMode == PlayMode.IDLE)
         {
             if (Time.time - timeOfLastMove >= maxWaitTime) playMode = PlayMode.ROTATING;

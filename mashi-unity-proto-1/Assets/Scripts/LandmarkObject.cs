@@ -13,6 +13,9 @@ public class LandmarkObject : MonoBehaviour
     private Image markerImage;
     private Button markerButton;
 
+    // tempt
+    public int childrenOrgID = 50; 
+
     // private TopicLibrary
 
     private GameObject earth;
@@ -30,19 +33,29 @@ public class LandmarkObject : MonoBehaviour
         markerImage = marker.GetComponent<Image>();
         markerButton = marker.GetComponent<Button>();
 
-        int orgID = GetComponentInParent<TopicSetup>().GetOrgNumber(); // 
-        marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
-
         markerImage.enabled = false;
         markerButton.enabled = false;
+
+        // checking if topic is children
+        if (!transform.parent.CompareTag("Children"))
+        {
+            int orgID = GetComponentInParent<TopicSetup>().GetOrgNumber(); // 
+            marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
+            GenerateRandomEvents();
+        } else
+        {
+            StartCoroutine(SetOrgNumber());
+        }
+
         marker.SetActive(false);
+    }
 
-        /*        Debug.Log(Screen.height);
-                Debug.Log(Screen.width);
-                Debug.Log(Camera.main.pixelWidth);
-                Debug.Log(Camera.main.pixelHeight);*/
-
-        GenerateRandomEvents();
+    IEnumerator SetOrgNumber()
+    {
+        while (childrenOrgID == 50) { 
+            yield return null;
+        }
+        marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), childrenOrgID);
     }
 
     public int GetMarkerOrgID()
@@ -54,11 +67,20 @@ public class LandmarkObject : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * Random.onUnitSphere * earth.transform.localScale.x;
+            Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
             var go = Instantiate(eventObjectPrefab, randomLocation, Quaternion.identity, earth.transform);
             eventObjectList.Add(go);
             // go.transform.SetParent(transform, worldPositionStays: false);
         }
+    }
+
+    //temp
+    public void GenerateImpactByOrg(string title, string desc)
+    {
+        Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
+        var go = Instantiate(eventObjectPrefab, randomLocation, Quaternion.identity, earth.transform);
+        go.GetComponent<EventObject>().SetEventDetails(title, desc);
+        eventObjectList.Add(go);
     }
 
     public void ShowEvents()

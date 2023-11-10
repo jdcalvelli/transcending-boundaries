@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landmarkPrefab: {fileID: 5866266752718618278, guid: 44a2570a7d0a7ed438fb629f0f3ea569, type: 3}
+  doRandomGeneration: 1
   topicNumber: 2
 --- !u!1 &133289303
 GameObject:
@@ -454,7 +455,7 @@ GameObject:
   - component: {fileID: 236845162}
   m_Layer: 0
   m_Name: Topic1
-  m_TagString: Untagged
+  m_TagString: Children
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -487,6 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landmarkPrefab: {fileID: 5866266752718618278, guid: 44a2570a7d0a7ed438fb629f0f3ea569, type: 3}
+  doRandomGeneration: 0
   topicNumber: 0
 --- !u!1 &289403250
 GameObject:
@@ -736,7 +738,7 @@ RectTransform:
   m_Children:
   - {fileID: 796508326}
   m_Father: {fileID: 1037167045}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -977,7 +979,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Topic 2
+  m_text: 'Refugees
 
 '
   m_isRightToLeft: 0
@@ -1006,8 +1008,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1114,9 +1116,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Topic 3
-
-'
+  m_text: Gender
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -1143,8 +1143,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1475,6 +1475,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1501905582}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1501905587}
         m_TargetAssemblyTypeName: OrgFilter, Assembly-CSharp
         m_MethodName: DisableAllEvents
@@ -1827,6 +1839,18 @@ MonoBehaviour:
           m_StringArgument: MainPage
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1501905587}
+        m_TargetAssemblyTypeName: OrgFilter, Assembly-CSharp
+        m_MethodName: DisableAllEvents
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1037167044}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -2058,6 +2082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landmarkPrefab: {fileID: 5866266752718618278, guid: 44a2570a7d0a7ed438fb629f0f3ea569, type: 3}
+  doRandomGeneration: 1
   topicNumber: 1
 --- !u!1 &900247312
 GameObject:
@@ -2166,8 +2191,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 432240681}
   - {fileID: 1285660841}
+  - {fileID: 432240681}
   m_Father: {fileID: 289403254}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2293,7 +2318,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Topic 1
+  m_text: 'Children
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -2320,8 +2347,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2386,7 +2413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1142131464
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2402,6 +2429,8 @@ MonoBehaviour:
   impactObjects:
     impacts: []
   isDataPopulating: 0
+  orgFilter: {fileID: 1501905587}
+  childrenTopic: {fileID: 236845162}
 --- !u!4 &1142131465
 Transform:
   m_ObjectHideFlags: 0
@@ -2585,7 +2614,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1037167045}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -2792,6 +2821,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1501905582}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1501905587}
         m_TargetAssemblyTypeName: OrgFilter, Assembly-CSharp
         m_MethodName: DisableAllEvents
@@ -3060,6 +3101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landmarkPrefab: {fileID: 5866266752718618278, guid: 44a2570a7d0a7ed438fb629f0f3ea569, type: 3}
+  doRandomGeneration: 1
   topicNumber: 3
 --- !u!1 &1386691536
 GameObject:
@@ -3281,6 +3323,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1501905582}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1501905587}
         m_TargetAssemblyTypeName: OrgFilter, Assembly-CSharp
         m_MethodName: DisableAllEvents
@@ -3592,16 +3646,6 @@ MonoBehaviour:
     m_Options:
     - m_Text: Select
       m_Image: {fileID: 0}
-    - m_Text: UNESCO
-      m_Image: {fileID: 0}
-    - m_Text: UNICEF
-      m_Image: {fileID: 0}
-    - m_Text: WHO
-      m_Image: {fileID: 0}
-    - m_Text: WFP
-      m_Image: {fileID: 0}
-    - m_Text: ILO
-      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3683,6 +3727,7 @@ MonoBehaviour:
   library: {fileID: 602245590}
   earthTransform: {fileID: 1941612741}
   blurb: {fileID: 1386691538}
+  dropdown: {fileID: 0}
 --- !u!1 &1534060410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3995,6 +4040,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1501905582}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1501905587}
         m_TargetAssemblyTypeName: OrgFilter, Assembly-CSharp
         m_MethodName: DisableAllEvents
@@ -4772,6 +4829,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   landmarkPrefab: {fileID: 5866266752718618278, guid: 44a2570a7d0a7ed438fb629f0f3ea569, type: 3}
+  doRandomGeneration: 1
   topicNumber: 4
 --- !u!1 &2091055191
 GameObject:
@@ -4985,6 +5043,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1501905582}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1501905587}
         m_TargetAssemblyTypeName: OrgFilter, Assembly-CSharp
         m_MethodName: DisableAllEvents
@@ -5219,8 +5289,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -5356,8 +5426,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Office
+public class Topic
 {
     public int id;
     public string title;
 }
 
 [System.Serializable]
-public class Topic
+public class Office
 {
     public int id;
     public string title;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class TopicSetup : MonoBehaviour
 {
     public GameObject landmarkPrefab;
+    public bool doRandomGeneration;
     [SerializeField]
     private int topicNumber;
     private GameObject earth;
@@ -15,7 +16,7 @@ public class TopicSetup : MonoBehaviour
     void Awake()
     {
         earth = transform.parent.gameObject;
-        GenerateRandomLandmarks();
+        if (doRandomGeneration) GenerateRandomLandmarks();
     }
 
     void Update()
@@ -45,9 +46,17 @@ public class TopicSetup : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * Random.onUnitSphere * earth.transform.localScale.x;
+            Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
             Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
         }
+    }
+
+    public GameObject GenerateLandmarkForOrg(int orgNumber)
+    {
+        Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
+        GameObject go = Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
+        go.GetComponent<LandmarkObject>().childrenOrgID = orgNumber;
+        return go;
     }
 
     public void EnableLandmarks()

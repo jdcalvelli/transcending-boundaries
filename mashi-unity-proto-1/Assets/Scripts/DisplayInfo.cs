@@ -56,4 +56,9 @@ public class DisplayInfo : MonoBehaviour
         eventInfoPanel.SetActive(false);
         CloseDropdown();
     }
+
+    public void CloseEventInfoPanel()
+    {
+        eventInfoPanel.SetActive(false);
+    }
 }

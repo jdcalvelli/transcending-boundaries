@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Linq;
 
-public class DatabaseTester : MonoBehaviour
+public class DatabaseRetrievalTest : MonoBehaviour
 {
     public DataJson.Root impactData;
     public ImpactList impactObjects;
     public bool isDataPopulating = false;
 
+    public static List<string> officeList = new();
+    public OrgFilter orgFilter;
+    public TopicSetup childrenTopic;
+
     void Start()
     {
-        // this is just a holdover script to testt that the api works
-        // we dont have parsing yet, thats next
         StartCoroutine(DatabaseSingleton.Instance.GetImpacts("children"));
 
         impactObjects = new ImpactList
@@ -21,7 +24,7 @@ public class DatabaseTester : MonoBehaviour
             impacts = new List<Impact>()
         };
 
-        TestDeserialization();
+        // TestDeserialization();
     }
 
     private void TestDeserialization()
@@ -29,6 +32,29 @@ public class DatabaseTester : MonoBehaviour
         string jsonString = File.ReadAllText("Assets/Data/sample.txt");
         impactData = JsonConvert.DeserializeObject<DataJson.Root>(jsonString);
         print(impactData.list[0].Topic.Title);
+    }
+
+    private void PrepareImpacts()
+    {
+        officeList = impactObjects.impacts.Select(i => i.office.title).Distinct().ToList();
+        // orgFilter.dropdown.AddOptions(officeList);     // temporary add options
+        foreach (string s in officeList)
+        {
+            orgFilter.AddLibraryEntry(s);
+            var landmarkGameObject = childrenTopic.GenerateLandmarkForOrg(orgFilter.orgLibrary.Count - 1);
+            List<Impact> impactsByOrg = impactObjects.impacts.Where(i => i.office.title == s).ToList();
+            StartCoroutine(AddImpactsToOrg(landmarkGameObject.GetComponent<LandmarkObject>(), impactsByOrg));
+        }
+    }
+
+    IEnumerator AddImpactsToOrg(LandmarkObject landmark, List<Impact> impacts)
+    {
+        foreach (Impact impact in impacts)
+        {
+            landmark.GenerateImpactByOrg(impact.title, impact.desc);
+            yield return null;
+        }
+        childrenTopic.EnableLandmarks();
     }
 
     private void Update()
@@ -77,8 +103,8 @@ public class DatabaseTester : MonoBehaviour
                 newImpact.topic = newTopic;
 
                 Office newOffice = new();
-                newTopic.id = impact.Office.Id;
-                newTopic.title = impact.Office.Title;
+                newOffice.id = impact.Office.Id;
+                newOffice.title = impact.Office.Title;
                 newImpact.office = newOffice;
 
                 impactObjects.impacts.Add(newImpact);
@@ -89,8 +115,7 @@ public class DatabaseTester : MonoBehaviour
             }
             yield return null;
         }
-
-        print(impactObjects.impacts[0].desc);
+        PrepareImpacts();
     }
 
 }
