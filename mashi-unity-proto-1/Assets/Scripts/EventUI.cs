@@ -13,7 +13,7 @@ public class EventUI : MonoBehaviour
     private string headingText = "";
     private string bodyText = "";
 
-    private bool isTextUpdated = false;
+    // private bool isTextUpdated = false;
 
     void Start()
     {
@@ -38,7 +38,9 @@ public class EventUI : MonoBehaviour
         if (bodyText == "") bodyText = "A brief description of the event and some context about how it may be a kind of milestone."; 
 
         heading.text = headingText.Substring(0, 20);
-        body.text = bodyText.Substring(0, 100);
+        body.text = bodyText.Substring(0, 50);
+
+        // figure out formatting
     }
 
     public void CloseEventInfoBox()

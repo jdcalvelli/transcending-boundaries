@@ -33,13 +33,13 @@ public class LandmarkObject : MonoBehaviour
         markerImage = marker.GetComponent<Image>();
         markerButton = marker.GetComponent<Button>();
 
-        markerImage.enabled = false;
+        markerImage.enabled = true;
         markerButton.enabled = false;
 
         // checking if topic is children
         if (!transform.parent.CompareTag("Children"))
         {
-            int orgID = GetComponentInParent<TopicSetup>().GetOrgNumber(); // 
+            int orgID = GetComponentInParent<TopicSetup>().GetTempOrgNumber(); // 
             marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
             GenerateRandomEvents();
         } else
@@ -121,12 +121,13 @@ public class LandmarkObject : MonoBehaviour
 
         if (transform.position.z > -2f)
         {
-            markerImage.enabled = false;
+            markerImage.CrossFadeAlpha(0.05f, 0.5f, true);
             markerButton.enabled = false;
         }
         else
         {
-            markerImage.enabled = true;
+            // why is this transition instantaneous? 
+            markerImage.CrossFadeAlpha(1, 0.75f, true);
             markerButton.enabled = true;
         }
 
@@ -134,7 +135,7 @@ public class LandmarkObject : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(v);
         
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-        markerTransform.anchoredPosition = new Vector2(1920 * pos.x, 1080 * pos.y);
+        markerTransform.anchoredPosition = new Vector2(WindowSize.width * pos.x, WindowSize.height * pos.y);
     }
 
     /*    private void OnDestroy()

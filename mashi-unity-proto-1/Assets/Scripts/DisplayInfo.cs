@@ -20,27 +20,39 @@ public class DisplayInfo : MonoBehaviour
         earthNav = GetComponent<EarthNavigator>();
     }
 
-    public void DisplayInfobox(int key)
+    public void DisplayInfobox(int topicID)
     {
         earthNav.ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
-        headerText.text = library.topicLibrary[key][0];
-        bodyText.text = library.topicLibrary[key][1];
+        headerText.text = library.topicLibrary[topicID][0];
+        bodyText.text = library.topicLibrary[topicID][1];
 
+        // update, change sprite
         library.buttonImages[(int)library.currentTopic].color = new Color(1, 1, 1, 1);
-        library.currentTopic = (TopicLibrary.Topic)key;
-        library.buttonImages[key].color = new Color(1, 1, 1, 0.5f);
+        library.currentTopic = (TopicLibrary.Topic)topicID;
+        library.buttonImages[topicID].color = new Color(1, 1, 1, 0.5f);
         infoBackButton.SetActive(true);
         OpenDropdown();
     }
 
+    public void DisplayOrgInfo(int orgID)
+    {
+        SetDropdownMenu(orgID);
+    }
+
     public void CloseDropdown()
     {
-        if (dropdown.gameObject.activeSelf) dropdown.gameObject.SetActive(false);
+        // if (dropdown.gameObject.activeSelf) dropdown.gameObject.SetActive(false);
+        if (dropdown.gameObject.activeSelf) dropdown.gameObject.GetComponent<OrgFilter>().DisableAllEvents(true);
     }
 
     public void OpenDropdown()
     {
         if (!dropdown.gameObject.activeSelf) dropdown.gameObject.SetActive(true);
+    }
+
+    public void SetDropdownMenu(int key)
+    {
+        dropdown.value = key;
     }
 
     public void CloseInfobox()

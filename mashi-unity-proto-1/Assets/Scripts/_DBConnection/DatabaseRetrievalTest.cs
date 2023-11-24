@@ -36,15 +36,20 @@ public class DatabaseRetrievalTest : MonoBehaviour
 
     private void PrepareImpacts()
     {
+        // why did I subtract 1??
+        print("why did I subtract count here again?");
+
         officeList = impactObjects.impacts.Select(i => i.office.title).Distinct().ToList();
-        // orgFilter.dropdown.AddOptions(officeList);     // temporary add options
         foreach (string s in officeList)
         {
             orgFilter.AddLibraryEntry(s);
             var landmarkGameObject = childrenTopic.GenerateLandmarkForOrg(orgFilter.orgLibrary.Count - 1);
+            
             List<Impact> impactsByOrg = impactObjects.impacts.Where(i => i.office.title == s).ToList();
             StartCoroutine(AddImpactsToOrg(landmarkGameObject.GetComponent<LandmarkObject>(), impactsByOrg));
         }
+        // orgFilter.UpdateDropdown();
+        orgFilter.UpdateScrollView();
     }
 
     IEnumerator AddImpactsToOrg(LandmarkObject landmark, List<Impact> impacts)

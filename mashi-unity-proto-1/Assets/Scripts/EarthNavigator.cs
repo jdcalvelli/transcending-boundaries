@@ -5,7 +5,7 @@ using UnityEngine;
 public class EarthNavigator : MonoBehaviour
 {
     public enum PlayMode { ROTATING, IDLE, RESET, TOPIC, IMPACT };
-    public PlayMode playMode;
+    public static PlayMode playMode;
 
     // for mouse input
     private Vector3 mPrevPos = Vector3.zero;

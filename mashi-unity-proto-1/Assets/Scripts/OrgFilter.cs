@@ -10,46 +10,56 @@ public class OrgFilter : MonoBehaviour
     public Transform earthTransform;
     public TextMeshProUGUI blurb;
     public TMP_Dropdown dropdown;
-    // private int lastDropdownValue;
-
+    public bool isDropdownUpdated = false;
+    
     public Dictionary<int, string> orgLibrary = new() { { 0, "Choose from a list of organizations to see what they're up to!" } };
-    private bool isDropdownUpdated = false;
+    public Transform orgButtonGroupTransform;
+    public GameObject orgButtonPrefab;
 
-    private void Awake()
+    void Start() { }
+
+    private void Update() { }
+
+    public void UpdateDropdown()
     {
-        dropdown = GetComponent<TMP_Dropdown>();
-        // orgLibrary.Add(0, "Choose from a list of organizations to see what they're up to!");
+        StartCoroutine(PopulateDropdown());
     }
 
-    void Start()
+    IEnumerator PopulateDropdown()
     {
-        
-        // lastDropdownValue = 0;
-
-        
-/*        orgLibrary.Add(1, $"This is a brief summary of Org #1's contribution in Topic."); // summary per org per topic
-        orgLibrary.Add(2, $"This is a brief summary of Org #2's contribution in Topic."); // e.g. if 6 orgs and 5 topics,
-        orgLibrary.Add(3, $"This is a brief summary of Org #3's contribution in Topic."); // then 30 unique descriptions?
-        orgLibrary.Add(4, $"This is a brief summary of Org #4's contribution in Topic.");
-        orgLibrary.Add(5, $"This is a brief summary of Org #5's contribution in Topic.");*/
+        while (dropdown == null) yield return null;
+        dropdown.AddOptions(DatabaseRetrievalTest.officeList);
     }
 
-    private void Update()
+    public void UpdateScrollView()
     {
-        if (!isDropdownUpdated)
+        StartCoroutine(PopulateScrollView());
+    }
+
+    IEnumerator PopulateScrollView()
+    {
+        foreach (string office in DatabaseRetrievalTest.officeList)
         {
-            if (dropdown != null)
-            {
-                dropdown.AddOptions(DatabaseRetrievalTest.officeList);
-                isDropdownUpdated = true;
-            }
+            CreateOrgButton(office.ToUpper());
+            yield return null;
         }
     }
 
-    // temporary, just for children
+    private GameObject CreateOrgButton(string orgName)
+    {
+        GameObject newButton = Instantiate(orgButtonPrefab, orgButtonGroupTransform);
+        newButton.GetComponent<OrgButtonParams>().SetNameAndImage(orgName);
+        // if (newButton.transform.parent.childCount == 1) newButton.GetComponent<OrgButtonParams>().topSeparator.SetActive(false);
+        return newButton;
+    }
+
+    // temporary, just for the topic Children
     public void AddLibraryEntry(string orgName)
     {
         orgLibrary.Add(orgLibrary.Count, $"This is a brief summary of {orgName}'s contribution in {library.currentTopic}!");
+        OrgNameToData.nameToDescription.Add(orgName.ToUpper(), $"This is a brief summary of {orgName}'s contribution in {library.currentTopic}!");
+        OrgNameToData.indexToName.Add(orgLibrary.Count - 1, orgName.ToUpper());
+        // foreach (int i in OrgNameToData.indexToName.Keys) print(i);
     }
 
     public void FilterOrg()
@@ -57,16 +67,49 @@ public class OrgFilter : MonoBehaviour
         StartCoroutine(ReplaceMarkers());
     }
 
-    // button press triggers error because inactive in beginning
-    public void DisableAllEvents()
+    public void FilterOrgButton(OrgButtonParams buttonParams)
     {
-        StartCoroutine(DisableEvents());
+        StartCoroutine(ReplaceMarkersButton(buttonParams));
     }
+
+    // button press triggers error because inactive in beginning
+    public void DisableAllEvents(bool disableGameObject = false)
+    {
+        StartCoroutine(DisableEvents(disableGameObject));
+    }
+
+    IEnumerator ReplaceMarkersButton(OrgButtonParams buttonParams)
+    {
+        earthTransform.gameObject.GetComponent<EarthNavigator>().ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
+        Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
+        blurb.text = OrgNameToData.nameToDescription[buttonParams.GetName()];
+
+        foreach (Transform landmark in currentTopicTransform)
+        {
+            int id = landmark.gameObject.GetComponent<LandmarkObject>().GetMarkerOrgID();
+            string orgName = OrgNameToData.indexToName[id];
+
+            if (orgName != buttonParams.GetName())
+            {
+                landmark.gameObject.GetComponent<LandmarkObject>().DisableMarker();
+                landmark.gameObject.GetComponent<LandmarkObject>().HideEvents();
+            }
+            else
+            {
+                landmark.gameObject.GetComponent<LandmarkObject>().EnableMarker();
+                landmark.gameObject.GetComponent<LandmarkObject>().ShowEvents();
+            }
+            yield return null;
+        }
+    }
+
 
     IEnumerator ReplaceMarkers()
     {
         earthTransform.gameObject.GetComponent<EarthNavigator>().ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
         Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
+        
+        // should depend on which
         blurb.text = orgLibrary[dropdown.value];
 
         foreach (Transform landmark in currentTopicTransform)
@@ -90,10 +133,9 @@ public class OrgFilter : MonoBehaviour
             }
             yield return null;
         }
-        // lastDropdownValue = dropdown.value;
     }
 
-    IEnumerator DisableEvents()
+    IEnumerator DisableEvents(bool disableDropdown = false)
     {
         Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
         foreach (Transform landmark in currentTopicTransform)
@@ -102,11 +144,6 @@ public class OrgFilter : MonoBehaviour
             landmark.gameObject.GetComponent<LandmarkObject>().HideEvents();
             yield return null;
         }
-    }
-
-    //temp
-    private void OnEnable()
-    {
-        dropdown.AddOptions(DatabaseRetrievalTest.officeList);
+        if (disableDropdown) dropdown.gameObject.SetActive(false);
     }
 }
