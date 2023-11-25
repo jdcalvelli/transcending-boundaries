@@ -40,16 +40,21 @@ public class DatabaseRetrievalTest : MonoBehaviour
         print("why did I subtract count here again?");
 
         officeList = impactObjects.impacts.Select(i => i.office.title).Distinct().ToList();
-        foreach (string s in officeList)
+        // print(officeList.Count);
+        foreach (string office in officeList)
         {
-            orgFilter.AddLibraryEntry(s);
+            orgFilter.AddLibraryEntry(office);
+            var orgButton = orgFilter.CreateOrgButton(office.ToUpper());
             var landmarkGameObject = childrenTopic.GenerateLandmarkForOrg(orgFilter.orgLibrary.Count - 1);
-            
-            List<Impact> impactsByOrg = impactObjects.impacts.Where(i => i.office.title == s).ToList();
+
+            orgButton.GetComponent<OrgButtonParams>().SetOrgFilter(orgFilter);
+            landmarkGameObject.GetComponent<LandmarkObject>().SetOrgButton(orgButton.GetComponent<OrgButtonParams>());
+
+            List<Impact> impactsByOrg = impactObjects.impacts.Where(i => i.office.title == office).ToList();
             StartCoroutine(AddImpactsToOrg(landmarkGameObject.GetComponent<LandmarkObject>(), impactsByOrg));
         }
         // orgFilter.UpdateDropdown();
-        orgFilter.UpdateScrollView();
+        // orgFilter.UpdateScrollView();
     }
 
     IEnumerator AddImpactsToOrg(LandmarkObject landmark, List<Impact> impacts)
@@ -59,6 +64,8 @@ public class DatabaseRetrievalTest : MonoBehaviour
             landmark.GenerateImpactByOrg(impact.title, impact.desc);
             yield return null;
         }
+
+        // children
         childrenTopic.EnableLandmarks();
     }
 

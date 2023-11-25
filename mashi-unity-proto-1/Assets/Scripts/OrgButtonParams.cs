@@ -19,19 +19,24 @@ public class OrgButtonParams : MonoBehaviour
     private void Start()
     {
         button = GetComponent<Button>();
-        orgFilter = GameObject.Find("UIManager").GetComponent<OrgFilter>();
+        // orgFilter = GameObject.Find("UIManager").GetComponent<OrgFilter>();
         eventInfo = GameObject.Find("EventInfo");
 
         button.onClick.AddListener(StartFilterOrgButton);
     }
 
-    void StartFilterOrgButton()
+    public void SetOrgFilter(OrgFilter filter)
+    {
+        orgFilter = filter;
+    }
+
+    public void StartFilterOrgButton()
     {
         orgFilter.FilterOrgButton(this);
+        orgFilter.SetupOrgUI(orgName.text);
         try { eventInfo.SetActive(false); }
         catch { } ;
     }
-
 
     public void SetNameAndImage(string name)
     {

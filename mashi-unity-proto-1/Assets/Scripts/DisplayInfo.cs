@@ -26,12 +26,10 @@ public class DisplayInfo : MonoBehaviour
         headerText.text = library.topicLibrary[topicID][0];
         bodyText.text = library.topicLibrary[topicID][1];
 
-        // update, change sprite
-        library.buttonImages[(int)library.currentTopic].color = new Color(1, 1, 1, 1);
-        library.currentTopic = (TopicLibrary.Topic)topicID;
-        library.buttonImages[topicID].color = new Color(1, 1, 1, 0.5f);
+        library.SetActiveTopic((TopicLibrary.Topic)topicID, false);
+
         infoBackButton.SetActive(true);
-        OpenDropdown();
+        // OpenDropdown();
     }
 
     public void DisplayOrgInfo(int orgID)

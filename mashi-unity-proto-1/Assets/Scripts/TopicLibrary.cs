@@ -8,7 +8,7 @@ public class TopicLibrary : MonoBehaviour
 {
     public enum Topic { TOPIC1, TOPIC2, TOPIC3, Length };
     public Topic currentTopic;
-    public Dictionary<int, List<string>> topicLibrary = new Dictionary<int, List<string>>();
+    public Dictionary<int, List<string>> topicLibrary = new();
 
     public EarthNavigator earth;
 
@@ -45,24 +45,29 @@ public class TopicLibrary : MonoBehaviour
         topics[(int)currentTopic].EnableLandmarks();
     }
 
+    public void SetActiveTopic(Topic newTopic, bool changeLandmarks = true)
+    {
+        buttonImages[(int)currentTopic].sprite = buttonSprites[0];
+        buttonText[(int)currentTopic].color = textColors[1];
+        if (changeLandmarks) topics[(int)currentTopic].DisableLandmarks();
+
+        buttonImages[(int)newTopic].sprite = buttonSprites[1];
+        buttonText[(int)newTopic].color = textColors[0];
+        if (changeLandmarks) topics[(int)newTopic].EnableLandmarks();
+
+        currentTopic = newTopic;
+    }
+
     private void Update()
     {
         if (EarthNavigator.playMode == EarthNavigator.PlayMode.ROTATING)
         {
             if (Time.time - timeSinceChangeMode > transitionTime)
             {
-                buttonImages[(int)currentTopic].sprite = buttonSprites[0];
-                buttonText[(int)currentTopic].color = textColors[1];
-                topics[(int)currentTopic].DisableLandmarks();
-                
-                if (currentTopic + 1 == Topic.Length) currentTopic = 0;
-                else currentTopic += 1;
-
-                topics[(int)currentTopic].EnableLandmarks();
-                // landmarkPlacer.DestroyLandmarks();
-
-                buttonImages[(int)currentTopic].sprite = buttonSprites[1];
-                buttonText[(int)currentTopic].color = textColors[0];
+                Topic newTopic; 
+                if (currentTopic + 1 == Topic.Length) newTopic = 0;
+                else newTopic = currentTopic + 1;
+                SetActiveTopic(newTopic);
                 timeSinceChangeMode = Time.time;
             }
         }

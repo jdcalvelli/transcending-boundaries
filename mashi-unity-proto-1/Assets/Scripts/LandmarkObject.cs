@@ -13,10 +13,9 @@ public class LandmarkObject : MonoBehaviour
     private Image markerImage;
     private Button markerButton;
 
-    // tempt
-    public int childrenOrgID = 50; 
-
-    // private TopicLibrary
+    // temp
+    public int childrenOrgID = 50;
+    private OrgButtonParams orgButton;
 
     private GameObject earth;
     public List<GameObject> eventObjectList = new List<GameObject>();
@@ -42,20 +41,31 @@ public class LandmarkObject : MonoBehaviour
             int orgID = GetComponentInParent<TopicSetup>().GetTempOrgNumber(); // 
             marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
             GenerateRandomEvents();
+            marker.SetActive(false);
         } else
         {
-            StartCoroutine(SetOrgNumber());
+            StartCoroutine(SetOrgInfo());
         }
-
-        marker.SetActive(false);
     }
 
-    IEnumerator SetOrgNumber()
+    public void SetOrgButton(OrgButtonParams button)
+    {
+        orgButton = button;
+    }
+
+    IEnumerator SetOrgInfo()
     {
         while (childrenOrgID == 50) { 
             yield return null;
         }
+        while (orgButton == null)
+        {
+            yield return null;
+        }
+
         marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), childrenOrgID);
+        marker.GetComponent<LandmarkUI>().SetButton(orgButton);
+        marker.SetActive(false);
     }
 
     public int GetMarkerOrgID()
@@ -137,26 +147,6 @@ public class LandmarkObject : MonoBehaviour
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
         markerTransform.anchoredPosition = new Vector2(WindowSize.width * pos.x, WindowSize.height * pos.y);
     }
-
-    /*    private void OnDestroy()
-        {
-            Destroy(marker);
-        }*/
-
-    /*    private void OnEnable()
-        {
-            marker.SetActive(true);
-            markerImage.enabled = true;
-            markerButton.enabled = true;
-
-        }
-
-        private void OnDisable()
-        {
-            marker.SetActive(false);
-            markerImage.enabled = false;
-            markerButton.enabled = false;
-        }*/
 
     public void EnableMarker()
     {

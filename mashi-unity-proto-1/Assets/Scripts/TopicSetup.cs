@@ -56,7 +56,6 @@ public class TopicSetup : MonoBehaviour
         Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
         GameObject go = Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
         go.GetComponent<LandmarkObject>().childrenOrgID = orgNumber;
-        // print(orgNumber);
         return go;
     }
 

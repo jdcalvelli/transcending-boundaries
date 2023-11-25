@@ -7,6 +7,7 @@ public class LandmarkUI : MonoBehaviour
     private GameObject earth;
     private int _topicID;
     private int _orgID;
+    private OrgButtonParams orgButton;
 
     void Start()
     {
@@ -23,6 +24,16 @@ public class LandmarkUI : MonoBehaviour
     public void Hide()
     {
         earth.GetComponent<DisplayInfo>().CloseInfobox();
+    }
+
+    public void SetButton(OrgButtonParams button)
+    {
+        orgButton = button;
+    }
+
+    public void ClickOnButton()
+    {
+        orgButton.StartFilterOrgButton();
     }
 
     public void SetID(int topicID, int orgID)

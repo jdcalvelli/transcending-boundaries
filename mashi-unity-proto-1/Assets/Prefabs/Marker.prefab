@@ -123,8 +123,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5885992366128068382}
-        m_TargetAssemblyTypeName: DisplayMarkerInfo, Assembly-CSharp
-        m_MethodName: Display
+        m_TargetAssemblyTypeName: LandmarkUI, Assembly-CSharp
+        m_MethodName: ClickOnButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

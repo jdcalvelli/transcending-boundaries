@@ -16,9 +16,23 @@ public class OrgFilter : MonoBehaviour
     public Transform orgButtonGroupTransform;
     public GameObject orgButtonPrefab;
 
+    public GameObject orgRelevant;
+    public OrgHeading orgHeadingButton;
+    public OrgContributions orgContributions;
+    public MainText mainText;
+
     void Start() { }
 
     private void Update() { }
+
+    public void SetupOrgUI(string org)
+    {
+        orgHeadingButton.gameObject.SetActive(true);
+        orgHeadingButton.ButtonSetup(library.topicLibrary[(int)library.currentTopic][0], org);
+        orgContributions.gameObject.SetActive(true);
+        mainText.SetHeadingAndBody("", OrgNameToData.nameToDescription[org]);
+        orgRelevant.SetActive(false);
+    }
 
     public void UpdateDropdown()
     {
@@ -45,7 +59,7 @@ public class OrgFilter : MonoBehaviour
         }
     }
 
-    private GameObject CreateOrgButton(string orgName)
+    public GameObject CreateOrgButton(string orgName)
     {
         GameObject newButton = Instantiate(orgButtonPrefab, orgButtonGroupTransform);
         newButton.GetComponent<OrgButtonParams>().SetNameAndImage(orgName);
@@ -109,7 +123,7 @@ public class OrgFilter : MonoBehaviour
         earthTransform.gameObject.GetComponent<EarthNavigator>().ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
         Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
         
-        // should depend on which
+        // should depend on which org
         blurb.text = orgLibrary[dropdown.value];
 
         foreach (Transform landmark in currentTopicTransform)
