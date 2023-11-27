@@ -19,7 +19,6 @@ public class OrgButtonParams : MonoBehaviour
     private void Start()
     {
         button = GetComponent<Button>();
-        // orgFilter = GameObject.Find("UIManager").GetComponent<OrgFilter>();
         eventInfo = GameObject.Find("EventInfo");
 
         button.onClick.AddListener(StartFilterOrgButton);

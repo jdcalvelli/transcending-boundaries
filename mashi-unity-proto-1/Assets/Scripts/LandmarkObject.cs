@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class LandmarkObject : MonoBehaviour
 {
-    public GameObject markerPrefab;
+    public GameObject orgMarkerPrefab;
     public GameObject eventObjectPrefab;
 
-    private GameObject marker;
+    private GameObject orgMarker;
     private RectTransform markerTransform;
     private Image markerImage;
     private Button markerButton;
@@ -27,10 +27,10 @@ public class LandmarkObject : MonoBehaviour
 
     void Start()
     {
-        marker = Instantiate(markerPrefab, GameObject.Find("Canvas").transform);
-        markerTransform = marker.GetComponent<RectTransform>();
-        markerImage = marker.GetComponent<Image>();
-        markerButton = marker.GetComponent<Button>();
+        orgMarker = Instantiate(orgMarkerPrefab, GameObject.Find("Canvas").transform);
+        markerTransform = orgMarker.GetComponent<RectTransform>();
+        markerImage = orgMarker.GetComponent<Image>();
+        markerButton = orgMarker.GetComponent<Button>();
 
         markerImage.enabled = true;
         markerButton.enabled = false;
@@ -39,9 +39,9 @@ public class LandmarkObject : MonoBehaviour
         if (!transform.parent.CompareTag("Children"))
         {
             int orgID = GetComponentInParent<TopicSetup>().GetTempOrgNumber(); // 
-            marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
+            orgMarker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
             GenerateRandomEvents();
-            marker.SetActive(false);
+            orgMarker.SetActive(false);
         } else
         {
             StartCoroutine(SetOrgInfo());
@@ -63,14 +63,14 @@ public class LandmarkObject : MonoBehaviour
             yield return null;
         }
 
-        marker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), childrenOrgID);
-        marker.GetComponent<LandmarkUI>().SetButton(orgButton);
-        marker.SetActive(false);
+        orgMarker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), childrenOrgID);
+        orgMarker.GetComponent<LandmarkUI>().SetButton(orgButton);
+        orgMarker.SetActive(false);
     }
 
     public int GetMarkerOrgID()
     {
-        return marker.GetComponent<LandmarkUI>().GetID()[1];
+        return orgMarker.GetComponent<LandmarkUI>().GetID()[1];
     }
 
     public void GenerateRandomEvents()
@@ -127,7 +127,7 @@ public class LandmarkObject : MonoBehaviour
     {
         // Debug.Log(transform.position.z);
 
-        if (!marker.activeSelf) return;
+        if (!orgMarker.activeSelf) return;
 
         if (transform.position.z > -2f)
         {
@@ -150,11 +150,11 @@ public class LandmarkObject : MonoBehaviour
 
     public void EnableMarker()
     {
-        marker.SetActive(true);
+        orgMarker.SetActive(true);
     }
 
     public void DisableMarker()
     {
-        marker.SetActive(false);
+        orgMarker.SetActive(false);
     }
 }

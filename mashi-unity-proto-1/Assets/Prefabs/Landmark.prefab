@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 023a932bf0aebe84d9afd78c3c151fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  markerPrefab: {fileID: 9111316040930362406, guid: 6088e4cfb9609134797d7010229a9afe, type: 3}
+  orgMarkerPrefab: {fileID: 9111316040930362406, guid: 6088e4cfb9609134797d7010229a9afe, type: 3}
   eventObjectPrefab: {fileID: 5866266752718618278, guid: 1a25fb3c1edc05c4ea608edd7c6619ff, type: 3}
+  childrenOrgID: 50
+  eventObjectList: []

@@ -14,13 +14,6 @@ public class LandmarkUI : MonoBehaviour
         earth = GameObject.Find("Earth");
     }
 
-    // change display info script for new UI
-    public void Display()
-    {
-        earth.GetComponent<DisplayInfo>().DisplayInfobox(_topicID);
-        earth.GetComponent<DisplayInfo>().DisplayOrgInfo(_orgID);
-    }
-
     public void Hide()
     {
         earth.GetComponent<DisplayInfo>().CloseInfobox();
@@ -31,7 +24,7 @@ public class LandmarkUI : MonoBehaviour
         orgButton = button;
     }
 
-    public void ClickOnButton()
+    public void Display()
     {
         orgButton.StartFilterOrgButton();
     }

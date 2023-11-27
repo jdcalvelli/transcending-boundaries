@@ -14,6 +14,8 @@ public class EarthNavigator : MonoBehaviour
     private float timeOfLastMove;
     private float maxWaitTime = 2.5f;
 
+    public OrgFilter orgFilter;
+
     void Start()
     {
         playMode = PlayMode.ROTATING;
@@ -21,22 +23,31 @@ public class EarthNavigator : MonoBehaviour
 
     public void ChangePlayMode(PlayMode mode)
     {
+        if (mode == PlayMode.IMPACT)
+        {
+            orgFilter.currentOrg.HideEvents();
+            orgFilter.currentOrg.DisableMarker();
+        } else if (playMode == PlayMode.IMPACT && mode == PlayMode.TOPIC)
+        {
+            orgFilter.currentOrg.ShowEvents();
+            orgFilter.currentOrg.EnableMarker();
+        }
+
         playMode = mode;
     }
 
     void Update()
     {
-        // consider making TransitionTo function for navigating states
-
         if (playMode == PlayMode.IMPACT)
         {
-            if (Input.GetMouseButton(0))
+/*            if (Input.GetMouseButton(0))
             {
                 GetComponent<DisplayInfo>().CloseEventInfoPanel();
                 playMode = PlayMode.TOPIC;
-            }
+            }*/
             return;
         }
+
         if (playMode == PlayMode.IDLE)
         {
             if (Time.time - timeOfLastMove >= maxWaitTime) playMode = PlayMode.ROTATING;

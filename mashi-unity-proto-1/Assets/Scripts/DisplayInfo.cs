@@ -10,10 +10,11 @@ public class DisplayInfo : MonoBehaviour
     public TextMeshProUGUI headerText;
     public TextMeshProUGUI bodyText;
     public TopicLibrary library;
-    public TMP_Dropdown dropdown;
     public GameObject eventInfoPanel;
 
-    public GameObject infoBackButton;
+    // public GameObject infoBackButton;
+
+    public GameObject topicButtonGroup;
 
     private void Start()
     {
@@ -28,29 +29,7 @@ public class DisplayInfo : MonoBehaviour
 
         library.SetActiveTopic((TopicLibrary.Topic)topicID, false);
 
-        infoBackButton.SetActive(true);
-        // OpenDropdown();
-    }
-
-    public void DisplayOrgInfo(int orgID)
-    {
-        SetDropdownMenu(orgID);
-    }
-
-    public void CloseDropdown()
-    {
-        // if (dropdown.gameObject.activeSelf) dropdown.gameObject.SetActive(false);
-        if (dropdown.gameObject.activeSelf) dropdown.gameObject.GetComponent<OrgFilter>().DisableAllEvents(true);
-    }
-
-    public void OpenDropdown()
-    {
-        if (!dropdown.gameObject.activeSelf) dropdown.gameObject.SetActive(true);
-    }
-
-    public void SetDropdownMenu(int key)
-    {
-        dropdown.value = key;
+        // infoBackButton.SetActive(true);
     }
 
     public void CloseInfobox()
@@ -62,13 +41,24 @@ public class DisplayInfo : MonoBehaviour
             "and agencies working together all over the world? \n\nClick on one of the topics on the " +
             "right to learn about how the UN is addressing these global issues.";
 
-        infoBackButton.SetActive(false);
+        // infoBackButton.SetActive(false);
         eventInfoPanel.SetActive(false);
-        CloseDropdown();
+    }
+
+    public void OpenEventInfoBox(Transform impactPin)
+    {
+        earthNav.ChangePlayMode(EarthNavigator.PlayMode.IMPACT);
+        earthNav.GetComponent<CameraManagement>().SetImpactCamera(impactPin);
+        topicButtonGroup.SetActive(false);
+        eventInfoPanel.SetActive(true);
     }
 
     public void CloseEventInfoPanel()
     {
         eventInfoPanel.SetActive(false);
+        earthNav.GetComponent<CameraManagement>().SetMainCamera();
+        earthNav.ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
+        topicButtonGroup.SetActive(true);
     }
+
 }

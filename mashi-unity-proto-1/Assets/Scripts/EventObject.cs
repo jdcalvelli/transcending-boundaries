@@ -41,13 +41,11 @@ public class EventObject : MonoBehaviour
 
         if (transform.position.z > -2f)
         {
-            //eventMarkerImage.enabled = false;
             eventMarkerImage.CrossFadeAlpha(0.05f, 0.5f, true);
             eventMarkerButton.enabled = false;
         }
         else
         {
-            //eventMarkerImage.enabled = true;
             eventMarkerImage.CrossFadeAlpha(1, 0.75f, true);
             eventMarkerButton.enabled = true;
         }
@@ -57,6 +55,9 @@ public class EventObject : MonoBehaviour
 
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
         eventMarkerTransform.anchoredPosition = new Vector2(WindowSize.width * pos.x, WindowSize.height * pos.y);
+        eventMarker.GetComponent<EventUI>().SetCaptionPosition();
+        eventMarker.GetComponent<EventUI>().CrossFadeCaption(eventMarkerButton.enabled);
+        eventMarker.GetComponent<EventUI>().SetLinkedObject(transform);
     }
 
     public void SetEventDetails(string title, string desc)
