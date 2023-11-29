@@ -73,10 +73,10 @@ public class DatabaseRetrievalTest : MonoBehaviour
     {
         if (!isDataPopulating)
         {
-            if (DatabaseSingleton.text != null)
+            if (DatabaseSingleton.ImpactResult != null)
             {
                 isDataPopulating = true;
-                string jsonString = DatabaseSingleton.text;
+                string jsonString = DatabaseSingleton.ImpactResult;
                 print(jsonString);
                 impactData = 
                     JsonConvert.DeserializeObject<DataJson.Root>

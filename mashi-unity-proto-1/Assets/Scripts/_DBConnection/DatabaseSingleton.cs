@@ -9,7 +9,8 @@ public class DatabaseSingleton : MonoBehaviour
 {
     // private set for Instance so that we cant override elsewhere
     public static DatabaseSingleton Instance { get; private set; }
-    public static string text;
+    public static string ImpactResult;
+    public static string OfficeByImpactResult;
 
     // built in unity event func
     private void Awake()
@@ -54,10 +55,31 @@ public class DatabaseSingleton : MonoBehaviour
             default:
                 // if there isnt an error, keep it rolling
                 // take the json object and serialize to class
-                // print(JsonConvert.SerializeObject(request.downloadHandler.text));
-                // text = JsonConvert.SerializeObject(request.downloadHandler.text);
-                text = request.downloadHandler.text;
+                ImpactResult = request.downloadHandler.text;
                 break;
         }
     }
+    
+    // coroutines to retrieve associated office / topic area / sdgs
+    public IEnumerator GetOfficeInfoFromImpact(Impact impact)
+    {
+        UnityWebRequest request = UnityWebRequest.Get(
+            $"https://noco.jdcalvelli.me/api/v1/db/data/v1/p364wcopjitnzvx/un-offices/{impact.officeId})"
+        );
+        request.SetRequestHeader("xc-token", APIKEY.APIKey);
+        yield return request.SendWebRequest();
+        switch (request.result)
+        {
+            case UnityWebRequest.Result.ConnectionError:
+                print("connection error");
+                break;
+            case UnityWebRequest.Result.ProtocolError:
+                print("protocol error");
+                break;
+            default:
+                OfficeByImpactResult = request.downloadHandler.text;
+                break;
+        }
+    }
+
 }
