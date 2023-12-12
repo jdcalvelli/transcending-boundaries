@@ -55,10 +55,9 @@ public class DisplayInfo : MonoBehaviour
 
     public void CloseEventInfoPanel()
     {
-        eventInfoPanel.SetActive(false);
+        if (eventInfoPanel.activeSelf) eventInfoPanel.SetActive(false);
         earthNav.GetComponent<CameraManagement>().SetMainCamera();
         earthNav.ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
         topicButtonGroup.SetActive(true);
     }
-
 }

@@ -59,8 +59,16 @@ public class EventUI : MonoBehaviour
 
     public void CrossFadeCaption(bool fadeIn)
     {
-        if (fadeIn) activeCaption.GetComponent<Image>().CrossFadeAlpha(1f, 0.75f, true);
-        else activeCaption.GetComponent<Image>().CrossFadeAlpha(0.05f, 0.5f, true);
+        if (fadeIn)
+        {
+            activeCaption.GetComponent<Image>().CrossFadeAlpha(1f, 0.75f, true);
+            activeCaption.transform.GetChild(0).GetComponent<TextMeshProUGUI>().CrossFadeAlpha(1f, 0.75f, true);
+        }
+        else
+        {
+            activeCaption.GetComponent<Image>().CrossFadeAlpha(0.0f, 0.5f, true);
+            activeCaption.transform.GetChild(0).GetComponent<TextMeshProUGUI>().CrossFadeAlpha(0f, 0.5f, true);
+        }
     }
 
     public void UpdateEventInfoBox()
@@ -68,13 +76,11 @@ public class EventUI : MonoBehaviour
         // places the correct content into the event infobox
 
         earth.GetComponent<DisplayInfo>().OpenEventInfoBox(linkedTransformObject);
-        // eventPanel.GetComponent<RectTransform>().position = gameObject.GetComponent<RectTransform>().position + Vector3.up * 200;
 
+        // replace with real text
         if (headingText == "") headingText = "Title of Recent Event"; 
         if (bodyText == "") bodyText = "A brief description of the event and some context about how it may be a kind of milestone.";
 
-        /*        heading.text = headingText.Substring(0, 40);
-                body.text = bodyText.Substring(0, 100);*/
         heading.text = headingText;
         body.text = bodyText;
 
