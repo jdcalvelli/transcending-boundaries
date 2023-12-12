@@ -58,6 +58,14 @@ public class TopicLibrary : MonoBehaviour
         currentTopic = newTopic;
     }
 
+    public void ResetLandmarks()
+    {
+        foreach (TopicSetup topic in topics)
+        {
+            topic.DisableLandmarks();
+        }
+    }
+
     private void Update()
     {
         if (EarthNavigator.playMode == EarthNavigator.PlayMode.ROTATING)

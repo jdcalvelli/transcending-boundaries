@@ -61,29 +61,27 @@ public class TopicSetup : MonoBehaviour
 
     public void EnableLandmarks()
     {
-        StartCoroutine(EnableAllChildren());
+        StartCoroutine(EnableAllChildrenInTransform());
     }
 
     public void DisableLandmarks()
     {
-        StartCoroutine(DisableAllChildren());
+        StartCoroutine(DisableAllChildrenInTransform());
     }
 
-    IEnumerator DisableAllChildren()
+    IEnumerator DisableAllChildrenInTransform()
     {
         foreach (Transform child in transform)
         {
             child.gameObject.GetComponent<LandmarkObject>().DisableMarker();
-            // child.gameObject.SetActive(false);
             yield return null;
         }
     }
 
-    IEnumerator EnableAllChildren()
+    IEnumerator EnableAllChildrenInTransform()
     {
         foreach (Transform child in transform)
         {
-            // child.gameObject.SetActive(true);
             child.gameObject.GetComponent<LandmarkObject>().EnableMarker();
             yield return null;
         }
