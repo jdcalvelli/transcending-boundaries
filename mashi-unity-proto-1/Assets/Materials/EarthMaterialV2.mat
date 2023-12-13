@@ -80,6 +80,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_0ed76d9d02704b1293c2104a33096c82_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 38e13cd423d8647fb81f6c87b9499b02, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_57fa231b7f154a56bbffdde443ef4cf7_Texture_1:
+        m_Texture: {fileID: 2800000, guid: cc8e1edb16100498cbd12702e91344a5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f6fa7a87a12245b9bf29cff0971ef69b_Texture_1:
+        m_Texture: {fileID: 2800000, guid: aafef8972f8354adbad3a9649c634209, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _BUILTIN_QueueControl: 0
