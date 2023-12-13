@@ -17,7 +17,7 @@ public class DatabaseRetrievalTest : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(DatabaseSingleton.Instance.GetImpacts("children"));
+        StartCoroutine(DatabaseSingleton.Instance.GetDatabaseDump());
 
         impactObjects = new ImpactList
         {
@@ -73,10 +73,10 @@ public class DatabaseRetrievalTest : MonoBehaviour
     {
         if (!isDataPopulating)
         {
-            if (DatabaseSingleton.ImpactResult != null)
+            if (DatabaseSingleton.DatabaseDump != null)
             {
                 isDataPopulating = true;
-                string jsonString = DatabaseSingleton.ImpactResult;
+                string jsonString = DatabaseSingleton.DatabaseDump;
                 print(jsonString);
                 impactData = 
                     JsonConvert.DeserializeObject<DataJson.Root>
