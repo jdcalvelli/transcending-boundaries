@@ -44,11 +44,26 @@ public class TopicSetup : MonoBehaviour
 
     public void GenerateRandomLandmarks()
     {
-        for (int i = 0; i < 5; i++)
+        // testing coordinate placement
+        Vector2[] coords = new Vector2[5];
+        coords[0] = new Vector2(40.7306f, -73.9352f); // NYC
+        coords[1] = new Vector2(41.9028f, 12.4964f); // Rome
+        coords[2] = new Vector2(23.8041f, 90.4152f); // Dhaka
+        coords[3] = new Vector2(25.0330f, 121.5654f); // Taipei
+        coords[4] = new Vector2(31.2304f, 121.4737f); // Shanghai
+
+        foreach (Vector2 coord in coords)
+        {
+            Vector3 rectCoord = SphericalToRectangular.Convert(earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x, coord.x, coord.y);
+            Vector3 location = earth.transform.position + rectCoord;
+            Instantiate(landmarkPrefab, location, Quaternion.identity, transform);
+        }
+
+/*        for (int i = 0; i < 5; i++)
         {
             Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
             Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
-        }
+        }*/
     }
 
     public GameObject GenerateLandmarkForOrg(int orgNumber)

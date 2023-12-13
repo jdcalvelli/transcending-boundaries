@@ -65,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3592c3afda0b487459bdfe6dce2718fe, type: 2}
+  - {fileID: 2100000, guid: 78eb88820bbb65447945107e892ff84d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,7 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac2bc0aaf21e74b43829905aab3809cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMode: 0
+  orgFilter: {fileID: 0}
+  dragCoefficient: 0
 --- !u!114 &3382737035455719968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,4 +142,5 @@ MonoBehaviour:
   headerText: {fileID: 0}
   bodyText: {fileID: 0}
   library: {fileID: 0}
-  infoBackButton: {fileID: 0}
+  eventInfoPanel: {fileID: 0}
+  topicButtonGroup: {fileID: 0}

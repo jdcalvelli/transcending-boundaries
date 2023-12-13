@@ -23,8 +23,10 @@ public class ResetScene : MonoBehaviour
     public OrgFilter orgFilter;
     public EarthNavigator earthNavigator;
     public CameraManagement cameraManagement;
+    public GameObject topicButtonGroup;
 
     private float timeOfLastTouch;
+    
 
     private void Start()
     {
@@ -48,6 +50,7 @@ public class ResetScene : MonoBehaviour
 
         cameraManagement.SetMainCamera();
         earthNavigator.ChangePlayMode(EarthNavigator.PlayMode.ROTATING);
+        topicButtonGroup.SetActive(true);
     }
 
     private void Update()
