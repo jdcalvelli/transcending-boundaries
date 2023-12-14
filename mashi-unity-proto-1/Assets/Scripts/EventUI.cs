@@ -10,10 +10,12 @@ public class EventUI : MonoBehaviour
     private GameObject eventPanel;
     private TextMeshProUGUI heading;
     private TextMeshProUGUI body;
+    private TextMeshProUGUI location;
     private Transform linkedTransformObject;
 
     private string headingText = "";
     private string bodyText = "";
+    private string locationText = "";
 
     [SerializeField]
     private GameObject captionTop;
@@ -25,10 +27,12 @@ public class EventUI : MonoBehaviour
 
     void Start()
     {
+        activeCaption = null;
         earth = GameObject.Find("Earth");
         eventPanel = earth.GetComponent<DisplayInfo>().eventInfoPanel;
         heading = eventPanel.transform.Find("Heading").GetComponent<TextMeshProUGUI>();
         body = eventPanel.transform.Find("Body").GetComponent<TextMeshProUGUI>();
+        location = eventPanel.transform.Find("Location").GetComponent<TextMeshProUGUI>();
     }
 
     public void SetLinkedObject(Transform t)
@@ -36,10 +40,13 @@ public class EventUI : MonoBehaviour
         linkedTransformObject = t;
     }
 
-    public void SetInfoText(string title, string desc)
+    public void SetInfoText(Impact impact)
     {
-        headingText = title;
-        bodyText = desc;
+        headingText = impact.title;
+        bodyText = impact.desc;
+        if (impact.city != null) locationText = $"{impact.city}, {impact.country}";
+        else locationText = impact.country;
+
     }
 
     public void SetCaptionPosition()
@@ -55,6 +62,15 @@ public class EventUI : MonoBehaviour
             captionBot.SetActive(true);
             activeCaption = captionBot;
         }
+
+        StartCoroutine(WaitToFillCaption());
+    }
+
+    IEnumerator WaitToFillCaption()
+    {
+        while (activeCaption == null) yield return null;
+        while (headingText == "") yield return null;
+        activeCaption.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = headingText;
     }
 
     public void CrossFadeCaption(bool fadeIn)
@@ -81,8 +97,10 @@ public class EventUI : MonoBehaviour
         if (headingText == "") headingText = "Title of Recent Event"; 
         if (bodyText == "") bodyText = "A brief description of the event and some context about how it may be a kind of milestone.";
 
+
         heading.text = headingText;
         body.text = bodyText;
+        location.text = locationText;
 
         // figure out formatting
     }

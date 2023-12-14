@@ -11,7 +11,7 @@ public class OrgFilter : MonoBehaviour
     public bool isDropdownUpdated = false;
     
     public Dictionary<int, string> orgLibrary = new() { { 0, "Choose from a list of organizations to see what they're up to!" } };
-    public Transform orgButtonGroupTransform;
+    public Transform orgButtonGroupTransform; // separate transform per filter?
     public GameObject orgButtonPrefab;
 
     public GameObject orgRelevantList;
@@ -28,8 +28,11 @@ public class OrgFilter : MonoBehaviour
     public void SetupOrgUI(string org)
     {
         orgHeadingButton.gameObject.SetActive(true);
-        orgHeadingButton.ButtonSetup(library.topicLibrary[(int)library.currentTopic][0], org);
-        orgContributions.gameObject.SetActive(true);
+        orgHeadingButton.ButtonSetup(library.topicLibrary[(int)TopicLibrary.currentTopic][0], org);
+        
+        // currently don't have contributions
+        // orgContributions.gameObject.SetActive(true);
+
         mainText.SetHeadingAndBody("", OrgNameToData.nameToDescription[org]);
         orgRelevantList.SetActive(false);
     }
@@ -42,13 +45,19 @@ public class OrgFilter : MonoBehaviour
         return newButton;
     }
 
-    // temporary, just for the topic Children
-    public void AddLibraryEntry(string orgName)
+    public (bool, GameObject) AddLibraryEntry(string orgName, string orgDesc)
     {
-        orgLibrary.Add(orgLibrary.Count, $"This is a brief summary of {orgName}'s contribution in {library.currentTopic}!");
-        OrgNameToData.nameToDescription.Add(orgName.ToUpper(), $"This is a brief summary of {orgName}'s contribution in {library.currentTopic}!");
+        // if (OrgNameToData.nameToDescription.ContainsKey(orgName.ToUpper())) return orgButtonGroupTransform.Find(orgName).gameObject;
+        if (OrgNameToData.nameToDescription.ContainsKey(orgName.ToUpper())) return (true, orgButtonGroupTransform.Find(orgName).gameObject);
+
+        orgLibrary.Add(orgLibrary.Count, orgDesc);
+        OrgNameToData.nameToDescription.Add(orgName.ToUpper(), orgDesc);
         OrgNameToData.indexToName.Add(orgLibrary.Count - 1, orgName.ToUpper());
-        // foreach (int i in OrgNameToData.indexToName.Keys) print(i);
+
+        var go = CreateOrgButton(orgName.ToUpper());
+        go.GetComponent<OrgButtonParams>().SetOrgFilter(this);
+        go.name = orgName.ToUpper();
+        return (false, go);
     }
 
     public void FilterOrgButton(OrgButtonParams buttonParams)
@@ -65,12 +74,13 @@ public class OrgFilter : MonoBehaviour
     IEnumerator ReplaceMarkersButton(OrgButtonParams buttonParams)
     {
         earthTransform.gameObject.GetComponent<EarthNavigator>().ChangePlayMode(EarthNavigator.PlayMode.TOPIC);
-        Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
+        Transform currentTopicTransform = earthTransform.GetChild((int)TopicLibrary.currentTopic);
 
         foreach (Transform landmark in currentTopicTransform)
         {
-            int id = landmark.gameObject.GetComponent<LandmarkObject>().GetMarkerOrgID();
-            string orgName = OrgNameToData.indexToName[id];
+/*            int id = landmark.gameObject.GetComponent<LandmarkObject>().GetMarkerOrgID();
+            string orgName = OrgNameToData.indexToName[id];*/
+            string orgName = landmark.gameObject.GetComponent<LandmarkObject>().orgName;
 
             if (orgName != buttonParams.GetName())
             {
@@ -89,7 +99,7 @@ public class OrgFilter : MonoBehaviour
 
     IEnumerator DisableEvents()
     {
-        Transform currentTopicTransform = earthTransform.GetChild((int)library.currentTopic);
+        Transform currentTopicTransform = earthTransform.GetChild((int)TopicLibrary.currentTopic);
         foreach (Transform landmark in currentTopicTransform)
         {
             // landmark.gameObject.GetComponent<LandmarkObject>().DisableMarker();

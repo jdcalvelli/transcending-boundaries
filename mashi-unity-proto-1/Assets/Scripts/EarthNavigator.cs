@@ -11,6 +11,8 @@ public class EarthNavigator : MonoBehaviour
     private float maxWaitTime = 2.5f;
 
     public OrgFilter orgFilter;
+    public GameObject topicButtonGroup;
+    public GameObject homeButton;
 
     private float rotationSpeed = 10f;
 
@@ -24,6 +26,16 @@ public class EarthNavigator : MonoBehaviour
 
     public void ChangePlayMode(PlayMode mode)
     {
+        if (mode == PlayMode.ROTATING || mode == PlayMode.IDLE)
+        {
+            topicButtonGroup.SetActive(true);
+            homeButton.SetActive(false);
+        } else
+        {
+            topicButtonGroup.SetActive(false);
+            homeButton.SetActive(true);
+        }
+
         if (mode == PlayMode.IMPACT)
         {
             orgFilter.currentOrg.HideEvents();

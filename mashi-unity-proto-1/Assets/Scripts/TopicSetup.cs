@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class TopicSetup : MonoBehaviour
 {
-    public GameObject landmarkPrefab;
-    public bool doRandomGeneration;
+    public GameObject landmarkPrefab; 
+
+    public string label;
+    public List<Impact> impactsByTopic;
+    public List<Impact> impactsByOrg;
+    public List<string> orgList;
+    //public OrgFilter filter; // each topic has its own filter
+
     [SerializeField]
     private int topicNumber;
     private GameObject earth;
 
-    // placeholder for designating organizations
+    // for debug
     private int orgMarker = 1;
+    public bool doRandomGeneration;
 
     void Awake()
     {
+        impactsByTopic = new List<Impact>();
+        impactsByOrg = new List<Impact>();
+
         earth = transform.parent.gameObject;
         if (doRandomGeneration) GenerateRandomLandmarks();
     }
@@ -58,19 +68,17 @@ public class TopicSetup : MonoBehaviour
             Vector3 location = earth.transform.position + rectCoord;
             Instantiate(landmarkPrefab, location, Quaternion.identity, transform);
         }
-
-/*        for (int i = 0; i < 5; i++)
-        {
-            Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
-            Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
-        }*/
     }
 
-    public GameObject GenerateLandmarkForOrg(int orgNumber)
+    public GameObject GenerateLandmarkForOrg(string orgName, Vector2 coords)
     {
         Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
+        
+        // Vector3 rectCoord = SphericalToRectangular.Convert(earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x, coords.x, coords.y);
+        // Vector3 location = earth.transform.position + rectCoord;
+
         GameObject go = Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
-        go.GetComponent<LandmarkObject>().childrenOrgID = orgNumber;
+        go.GetComponent<LandmarkObject>().orgName = orgName;
         return go;
     }
 

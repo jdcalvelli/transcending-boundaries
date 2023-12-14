@@ -7,7 +7,7 @@ using TMPro;
 public class TopicLibrary : MonoBehaviour
 {
     public enum Topic { TOPIC1, TOPIC2, TOPIC3, Length };
-    public Topic currentTopic;
+    public static Topic currentTopic;
     public Dictionary<int, List<string>> topicLibrary = new();
 
     public EarthNavigator earth;
@@ -15,6 +15,7 @@ public class TopicLibrary : MonoBehaviour
     // public LandmarkPlacement landmarkPlacer;
     public Image[] buttonImages;
     public TopicSetup[] topics;
+    public Transform orgButtonGroup;
 
     public Sprite[] buttonSprites;
     public TextMeshProUGUI[] buttonText;
@@ -56,6 +57,21 @@ public class TopicLibrary : MonoBehaviour
         if (changeLandmarks) topics[(int)newTopic].EnableLandmarks();
 
         currentTopic = newTopic;
+    }
+
+    public void SetupDropdownMenu()
+    {
+        StartCoroutine(SetupDropdown());
+    }
+
+    IEnumerator SetupDropdown()
+    {
+        foreach (Transform item in orgButtonGroup)
+        {
+            if (topics[(int)currentTopic].orgList.Contains(item.name)) item.gameObject.SetActive(true);
+            else item.gameObject.SetActive(false);
+            yield return null;
+        }
     }
 
     public void ResetLandmarks()

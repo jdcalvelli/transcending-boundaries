@@ -9,7 +9,6 @@ public class OrgHeading : MonoBehaviour
     public TextMeshProUGUI topicAndOrgText;
     public Image orgLogo;
     public Button[] topicButtons;
-    public TopicLibrary library;
 
     public void ButtonSetup(string topic, string org)
     {
@@ -19,7 +18,7 @@ public class OrgHeading : MonoBehaviour
 
     public void ReturnToTopic()
     {
-        topicButtons[(int)library.currentTopic].onClick.Invoke();
+        topicButtons[(int)TopicLibrary.currentTopic].onClick.Invoke();
     }
 
 

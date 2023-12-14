@@ -7,6 +7,7 @@ public class LandmarkUI : MonoBehaviour
     private GameObject earth;
     private int _topicID;
     private int _orgID;
+    private string _orgName;
     private OrgButtonParams orgButton;
 
     void Start()
@@ -29,10 +30,11 @@ public class LandmarkUI : MonoBehaviour
         orgButton.StartFilterOrgButton();
     }
 
-    public void SetID(int topicID, int orgID)
+    public void SetID(int topicID, string orgName)
     {
         _topicID = topicID;
-        _orgID = orgID;
+        //_orgID = orgID;
+        _orgName = orgName;
     }
 
     public List<int> GetID()

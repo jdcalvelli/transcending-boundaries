@@ -45,9 +45,9 @@ public class ResetScene : MonoBehaviour
 
         // topicLibrary.ResetLandmarksForCurrentTopic();
         topicLibrary.ResetLandmarks();
-        topicLibrary.SetActiveTopic(TopicLibrary.Topic.TOPIC1);
         orgFilter.DisableAllEvents();
 
+        topicLibrary.SetActiveTopic(TopicLibrary.Topic.TOPIC1);
         cameraManagement.SetMainCamera();
         earthNavigator.ChangePlayMode(EarthNavigator.PlayMode.ROTATING);
         topicButtonGroup.SetActive(true);

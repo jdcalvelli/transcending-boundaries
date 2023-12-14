@@ -7,19 +7,21 @@ using System.Linq;
 
 public class DatabaseRetrievalTest : MonoBehaviour
 {
-    public DataJson.Root impactData;
-    public ImpactList impactObjects;
+    public DataJson.ImpactList impactData;
+    public ImpactList allImpacts;
+
     public bool isDataPopulating = false;
 
-    public static List<string> officeList = new();
     public OrgFilter orgFilter;
+
+    public TopicSetup[] topics;
     public TopicSetup childrenTopic;
 
     void Start()
     {
         StartCoroutine(DatabaseSingleton.Instance.GetDatabaseDump());
 
-        impactObjects = new ImpactList
+        allImpacts = new ImpactList
         {
             impacts = new List<Impact>()
         };
@@ -29,44 +31,48 @@ public class DatabaseRetrievalTest : MonoBehaviour
 
     private void TestDeserialization()
     {
-        string jsonString = File.ReadAllText("Assets/Data/sample.txt");
-        impactData = JsonConvert.DeserializeObject<DataJson.Root>(jsonString);
-        print(impactData.list[0].Topic.Title);
+        string jsonString = File.ReadAllText("Assets/Data/message.txt");
+        impactData = JsonConvert.DeserializeObject<DataJson.ImpactList>(jsonString);
     }
 
     private void PrepareImpacts()
     {
-        // why did I subtract 1??
-        print("why did I subtract count here again?");
-
-        officeList = impactObjects.impacts.Select(i => i.office.title).Distinct().ToList();
-        // print(officeList.Count);
-        foreach (string office in officeList)
+        foreach (TopicSetup topic in topics)
         {
-            orgFilter.AddLibraryEntry(office);
-            var orgButton = orgFilter.CreateOrgButton(office.ToUpper());
-            var landmarkGameObject = childrenTopic.GenerateLandmarkForOrg(orgFilter.orgLibrary.Count - 1);
-
-            orgButton.GetComponent<OrgButtonParams>().SetOrgFilter(orgFilter);
-            landmarkGameObject.GetComponent<LandmarkObject>().SetOrgButton(orgButton.GetComponent<OrgButtonParams>());
-
-            List<Impact> impactsByOrg = impactObjects.impacts.Where(i => i.office.title == office).ToList();
-            StartCoroutine(AddImpactsToOrg(landmarkGameObject.GetComponent<LandmarkObject>(), impactsByOrg));
+            topic.impactsByTopic = allImpacts.impacts.Where(i => i.topic.title == topic.label).ToList();
+            PrepareImpactsByOffice(topic);
         }
-        // orgFilter.UpdateDropdown();
-        // orgFilter.UpdateScrollView();
+    }
+
+    private void PrepareImpactsByOffice(TopicSetup topic)
+    {
+        topic.orgList = topic.impactsByTopic.Select(i => i.office.title).Distinct().ToList();
+
+        foreach (string officeName in topic.orgList)
+        {
+            topic.impactsByOrg = topic.impactsByTopic.Where(i => i.office.title == officeName).ToList();
+
+            (bool officeExists,  GameObject button) = orgFilter.AddLibraryEntry(officeName, topic.impactsByOrg[0].office.desc);
+
+            Vector2 orgLocation = new(topic.impactsByOrg[0].office.latitude, topic.impactsByOrg[0].office.longitude);
+            GameObject landmarkGameObject = topic.GenerateLandmarkForOrg(officeName.ToUpper(), orgLocation);
+
+            landmarkGameObject.GetComponent<LandmarkObject>().SetOrgButton(button.GetComponent<OrgButtonParams>());
+            landmarkGameObject.name = officeName;
+
+            StartCoroutine(AddImpactsToOrg(landmarkGameObject.GetComponent<LandmarkObject>(), topic.impactsByOrg));
+        }
     }
 
     IEnumerator AddImpactsToOrg(LandmarkObject landmark, List<Impact> impacts)
     {
         foreach (Impact impact in impacts)
         {
-            landmark.GenerateImpactByOrg(impact.title, impact.desc);
+            landmark.GenerateImpactByOrg(impact);
             yield return null;
         }
 
-        // children
-        childrenTopic.EnableLandmarks();
+        topics[(int)TopicLibrary.currentTopic].EnableLandmarks();
     }
 
     private void Update()
@@ -79,7 +85,7 @@ public class DatabaseRetrievalTest : MonoBehaviour
                 string jsonString = DatabaseSingleton.DatabaseDump;
                 print(jsonString);
                 impactData = 
-                    JsonConvert.DeserializeObject<DataJson.Root>
+                    JsonConvert.DeserializeObject<DataJson.ImpactList>
                     (
                         jsonString, 
                         new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore } 
@@ -91,7 +97,7 @@ public class DatabaseRetrievalTest : MonoBehaviour
 
     public IEnumerator PopulateData()
     {
-        foreach (DataJson.Impact impact in impactData.list)
+        foreach (DataJson.Impact impact in impactData.AllImpacts)
         {
             try
             {
@@ -101,25 +107,69 @@ public class DatabaseRetrievalTest : MonoBehaviour
                 newImpact.createdAt = impact.CreatedAt;
                 newImpact.updatedAt = impact.UpdatedAt;
                 newImpact.desc = impact.Desc;
-                newImpact.loc = impact.Loc;
                 newImpact.year = impact.Year;
                 newImpact.topicId = impact.TopicId;
                 newImpact.officeId = impact.OfficeId;
+                newImpact.latitude = impact.Latitude;
+                newImpact.longitude = impact.Longitude;
+                newImpact.country = impact.Country;
+                newImpact.city = impact.City;
+                newImpact.numSDGs = impact.NumSDGs;
 
+                newImpact.tableMapList = new List<TableMap>();
                 newImpact.topic = new Topic();
                 newImpact.office = new Office();
+
+                foreach (DataJson.TableMap tableMap in impact.TableMapList)
+                {
+                    TableMap newTableMap = new();
+                    newTableMap.table1ID = tableMap.Table1ID;
+                    newTableMap.table2ID = tableMap.Table2ID;
+                    newImpact.tableMapList.Add(newTableMap);
+                }
 
                 Topic newTopic = new();
                 newTopic.id = impact.Topic.Id;
                 newTopic.title = impact.Topic.Title;
+                newTopic.createdAt = impact.Topic.CreatedAt;
+                newTopic.updatedAt = impact.Topic.UpdatedAt;
+                newTopic.numImpacts = impact.Topic.NumImpacts;
+                newTopic.numOffices = impact.Topic.NumOffices;
+                newTopic.tableMapList = new List<TableMap>();
                 newImpact.topic = newTopic;
+
+                foreach (DataJson.TableMap tableMap in impact.Topic.TableMapList)
+                {
+                    TableMap newTableMap = new();
+                    newTableMap.table1ID = tableMap.Table1ID;
+                    newTableMap.table2ID = tableMap.Table2ID;
+                    newTopic.tableMapList.Add(newTableMap);
+                }
 
                 Office newOffice = new();
                 newOffice.id = impact.Office.Id;
                 newOffice.title = impact.Office.Title;
+                newOffice.createdAt = impact.Office.CreatedAt;
+                newOffice.updatedAt = impact.Office.UpdatedAt;
+                newOffice.numImpacts = impact.Office.NumImpacts;
+                newOffice.numTopics = impact.Office.NumTopics;
+                newOffice.city = impact.Office.City;
+                newOffice.country = impact.Office.Country;
+                newOffice.latitude = impact.Office.Latitude;
+                newOffice.longitude = impact.Office.Longitude;
+                newOffice.desc = impact.Office.Desc;
+                newOffice.tableMapList = new List<TableMap>();
                 newImpact.office = newOffice;
 
-                impactObjects.impacts.Add(newImpact);
+                foreach (DataJson.TableMap tableMap in impact.Office.TableMapList)
+                {
+                    TableMap newTableMap = new();
+                    newTableMap.table1ID = tableMap.Table1ID;
+                    newTableMap.table2ID = tableMap.Table2ID;
+                    newOffice.tableMapList.Add(newTableMap);
+                }
+
+                allImpacts.impacts.Add(newImpact);
             }
             catch
             {
