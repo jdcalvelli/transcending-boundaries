@@ -35,8 +35,8 @@ public class TopicLibrary : MonoBehaviour
         // landmarkPlacer.GenerateRandomLandmarks();
 
         topicLibrary.Add(0, new List<string> { "Children", "Every child has the right to health, education and protection, and every society has a stake in expanding childrenÅfs opportunities in life. Yet, around the world, millions of children are denied a fair chance for no reason other than the country, gender or circumstances into which they are born." });
-        topicLibrary.Add(1, new List<string> { "Refugees", "This is a thoughtful introduction to the topic!" });
-        topicLibrary.Add(2, new List<string> { "Gender", "This is a thoughtful introduction to the topic!" });
+        topicLibrary.Add(1, new List<string> { "Refugees", "There were 89.3 million people forcibly displaced world-wide at the end of 2021. There were also 53.2 million internally displaced people, 4.6 million asylum seekers, and millions of stateless people, who have been denied a nationality and access to basic rights." });
+        topicLibrary.Add(2, new List<string> { "Gender Equality", "Women and girls represent half of the worldÅfs population. Gender equality, besides being a fundamental human right, is essential to achieve peaceful societies, with full human potential and sustainable development. Moreover, it has been shown that empowering women spurs productivity and economic growth." });
 
         topics[0].EnableLandmarks();
     }

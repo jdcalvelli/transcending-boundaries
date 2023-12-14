@@ -72,7 +72,8 @@ public class LandmarkObject : MonoBehaviour
         Vector3 rectCoord = SphericalToRectangular.Convert(earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x, coords.x, coords.y);
         Vector3 location = earth.transform.position + rectCoord;
 
-        var go = Instantiate(eventObjectPrefab, location, Quaternion.identity, earth.transform);
+        var go = Instantiate(eventObjectPrefab, TopicSetup.RotatePointAroundPivot(location, earth.transform.position), Quaternion.identity, earth.transform);
+        // var go = Instantiate(eventObjectPrefab, location, Quaternion.identity, earth.transform);
         go.GetComponent<EventObject>().SetEventDetails(impact);
         eventObjectList.Add(go);
     }
@@ -87,7 +88,6 @@ public class LandmarkObject : MonoBehaviour
         foreach (GameObject go in eventObjectList)
         {
             go.GetComponent<EventObject>().EnableEventMarker();
-            // child.gameObject.GetComponent<EventObject>().EnableEventMarker();
             yield return null;
         }
     }
