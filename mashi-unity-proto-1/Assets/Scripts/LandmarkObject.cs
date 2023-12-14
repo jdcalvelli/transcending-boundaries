@@ -13,12 +13,14 @@ public class LandmarkObject : MonoBehaviour
     private Image markerImage;
     private Button markerButton;
 
+    public string orgName = "";
+
     // temp
-    public int childrenOrgID = 50;
+    public int orgID = 50;
     private OrgButtonParams orgButton;
 
     private GameObject earth;
-    public List<GameObject> eventObjectList = new List<GameObject>();
+    public List<GameObject> eventObjectList = new();
 
     private void Awake()
     {
@@ -35,17 +37,8 @@ public class LandmarkObject : MonoBehaviour
         markerImage.enabled = true;
         markerButton.enabled = false;
 
-        // checking if topic is children
-        if (!transform.parent.CompareTag("Children"))
-        {
-            int orgID = GetComponentInParent<TopicSetup>().GetTempOrgNumber(); // 
-            orgMarker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgID);
-            GenerateRandomEvents();
-            orgMarker.SetActive(false);
-        } else
-        {
-            StartCoroutine(SetOrgInfo());
-        }
+        StartCoroutine(SetOrgInfo());
+
     }
 
     public void SetOrgButton(OrgButtonParams button)
@@ -55,7 +48,7 @@ public class LandmarkObject : MonoBehaviour
 
     IEnumerator SetOrgInfo()
     {
-        while (childrenOrgID == 50) { 
+        while (orgName == "") { 
             yield return null;
         }
         while (orgButton == null)
@@ -63,7 +56,7 @@ public class LandmarkObject : MonoBehaviour
             yield return null;
         }
 
-        orgMarker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), childrenOrgID);
+        orgMarker.GetComponent<LandmarkUI>().SetID(GetComponentInParent<TopicSetup>().GetTopicNumber(), orgName);
         orgMarker.GetComponent<LandmarkUI>().SetButton(orgButton);
         orgMarker.SetActive(false);
     }
@@ -73,23 +66,15 @@ public class LandmarkObject : MonoBehaviour
         return orgMarker.GetComponent<LandmarkUI>().GetID()[1];
     }
 
-    public void GenerateRandomEvents()
+    public void GenerateImpactByOrg(Impact impact)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
-            var go = Instantiate(eventObjectPrefab, randomLocation, Quaternion.identity, earth.transform);
-            eventObjectList.Add(go);
-            // go.transform.SetParent(transform, worldPositionStays: false);
-        }
-    }
+        Vector2 coords = new(impact.latitude, impact.longitude);
+        Vector3 rectCoord = SphericalToRectangular.Convert(earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x, coords.x, coords.y);
+        Vector3 location = earth.transform.position + rectCoord;
 
-    //temp
-    public void GenerateImpactByOrg(string title, string desc)
-    {
-        Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
-        var go = Instantiate(eventObjectPrefab, randomLocation, Quaternion.identity, earth.transform);
-        go.GetComponent<EventObject>().SetEventDetails(title, desc);
+        var go = Instantiate(eventObjectPrefab, TopicSetup.RotatePointAroundPivot(location, earth.transform.position), Quaternion.identity, earth.transform);
+        // var go = Instantiate(eventObjectPrefab, location, Quaternion.identity, earth.transform);
+        go.GetComponent<EventObject>().SetEventDetails(impact);
         eventObjectList.Add(go);
     }
 
@@ -103,7 +88,6 @@ public class LandmarkObject : MonoBehaviour
         foreach (GameObject go in eventObjectList)
         {
             go.GetComponent<EventObject>().EnableEventMarker();
-            // child.gameObject.GetComponent<EventObject>().EnableEventMarker();
             yield return null;
         }
     }

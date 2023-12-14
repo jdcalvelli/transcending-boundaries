@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class TopicSetup : MonoBehaviour
 {
-    public GameObject landmarkPrefab;
-    public bool doRandomGeneration;
+    public GameObject landmarkPrefab; 
+
+    public string label;
+    public List<Impact> impactsByTopic;
+    public List<Impact> impactsByOrg;
+    public List<string> orgList;
+    //public OrgFilter filter; // each topic has its own filter
+
     [SerializeField]
     private int topicNumber;
     private GameObject earth;
 
-    // placeholder for designating organizations
+    // for debug
     private int orgMarker = 1;
+    public bool doRandomGeneration;
 
     void Awake()
     {
+        impactsByTopic = new List<Impact>();
+        impactsByOrg = new List<Impact>();
+
         earth = transform.parent.gameObject;
         if (doRandomGeneration) GenerateRandomLandmarks();
     }
@@ -42,6 +52,14 @@ public class TopicSetup : MonoBehaviour
         topicNumber = num;
     }
 
+    public static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot) 
+    {
+        Vector3 dir = point - pivot; // get point direction relative to pivot
+        dir = Quaternion.Euler(new Vector3(0, 0, -23.4f))* dir; // rotate it
+        point = dir + pivot; // calculate rotated point
+        return point; // return it
+    }
+
     public void GenerateRandomLandmarks()
     {
         // testing coordinate placement
@@ -56,21 +74,20 @@ public class TopicSetup : MonoBehaviour
         {
             Vector3 rectCoord = SphericalToRectangular.Convert(earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x, coord.x, coord.y);
             Vector3 location = earth.transform.position + rectCoord;
-            Instantiate(landmarkPrefab, location, Quaternion.identity, transform);
+            Instantiate(landmarkPrefab, RotatePointAroundPivot(location, earth.transform.position), Quaternion.identity, transform);
         }
-
-/*        for (int i = 0; i < 5; i++)
-        {
-            Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
-            Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
-        }*/
     }
 
-    public GameObject GenerateLandmarkForOrg(int orgNumber)
+    public GameObject GenerateLandmarkForOrg(string orgName, Vector2 coords)
     {
-        Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
-        GameObject go = Instantiate(landmarkPrefab, randomLocation, Quaternion.identity, transform);
-        go.GetComponent<LandmarkObject>().childrenOrgID = orgNumber;
+        // Vector3 randomLocation = earth.transform.position + earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x * Random.onUnitSphere;
+
+        Vector3 rectCoord = SphericalToRectangular.Convert(earth.GetComponent<SphereCollider>().radius * earth.transform.localScale.x, coords.x, coords.y);
+        Vector3 location = earth.transform.position + rectCoord;
+
+        GameObject go = Instantiate(landmarkPrefab, RotatePointAroundPivot(location, earth.transform.position), Quaternion.identity, transform);
+        // GameObject go = Instantiate(landmarkPrefab, location, Quaternion.identity, transform);
+        go.GetComponent<LandmarkObject>().orgName = orgName;
         return go;
     }
 

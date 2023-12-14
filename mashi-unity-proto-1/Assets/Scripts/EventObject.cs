@@ -16,6 +16,8 @@ public class EventObject : MonoBehaviour
 
     private string eventTitle = "";
     private string eventDesc = "";
+    private string eventCity = "";
+    private string eventCountry = "";
 
     private void Awake()
     {
@@ -60,17 +62,19 @@ public class EventObject : MonoBehaviour
         eventMarker.GetComponent<EventUI>().SetLinkedObject(transform);
     }
 
-    public void SetEventDetails(string title, string desc)
+    public void SetEventDetails(Impact impact)
     {
-        eventTitle = title;
-        eventDesc = desc;
-        StartCoroutine(WaitToSetText(title, desc));
+        eventTitle = impact.title;
+        eventDesc = impact.desc;
+        eventCity = impact.city;
+        eventCountry = impact.country;
+        StartCoroutine(WaitToSetText(impact));
     }
 
-    IEnumerator WaitToSetText(string title, string desc)
+    IEnumerator WaitToSetText(Impact impact)
     {
         while (eventMarker == null) yield return null;
-        eventMarker.GetComponent<EventUI>().SetInfoText(title, desc);
+        eventMarker.GetComponent<EventUI>().SetInfoText(impact);
     }
 
     public void EnableEventMarker()

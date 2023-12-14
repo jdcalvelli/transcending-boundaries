@@ -12,6 +12,36 @@ namespace DataJson
 
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
+
+        [JsonIgnore]
+        public string CreatedAt { get; set; }
+
+        [JsonIgnore]
+        public string UpdatedAt { get; set; }
+
+        [JsonProperty(PropertyName = "Topic Areas")]
+        public int NumTopics { get; set; }
+
+        [JsonProperty(PropertyName = "impacts")] 
+        public int NumImpacts { get; set; }
+
+        [JsonProperty(PropertyName = "City")]
+        public string City { get; set; }
+
+        [JsonProperty(PropertyName = "Country")]
+        public string Country { get; set; }
+
+        [JsonProperty(PropertyName = "Latitude")]
+        public float Latitude { get; set; }
+
+        [JsonProperty(PropertyName = "Longitude")]
+        public float Longitude { get; set; }
+
+        [JsonProperty(PropertyName = "General Info")]
+        public string Desc { get; set; }
+
+        [JsonProperty(PropertyName = "nc_prk2___nc_m2m_mlucus5b5ds")] 
+        public List<TableMap> TableMapList { get; set; }
     }
 
     public class Topic
@@ -21,6 +51,30 @@ namespace DataJson
 
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
+
+        [JsonIgnore]
+        public string CreatedAt { get; set; }
+
+        [JsonIgnore]
+        public string UpdatedAt { get; set; }
+
+        [JsonProperty(PropertyName = "un-offices")]
+        public int NumOffices { get; set; }
+
+        [JsonProperty(PropertyName = "impacts")]
+        public int NumImpacts { get; set; }
+
+        [JsonProperty(PropertyName = "nc_prk2___nc_m2m_mlucus5b5ds")]
+        public List<TableMap> TableMapList { get; set; }
+    }
+
+    public class TableMap
+    {
+        [JsonProperty(PropertyName = "table2_id")]
+        public int Table2ID { get; set; }
+
+        [JsonProperty(PropertyName = "table1_id")]
+        public int Table1ID { get; set; }
     }
 
     public class Impact
@@ -31,12 +85,6 @@ namespace DataJson
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
 
-        /*        [JsonProperty(PropertyName = "CreatedAt")]
-                public string CreatedAt { get; set; }
-
-                [JsonProperty(PropertyName = "UpdatedAt")]
-                public string UpdatedAt { get; set; }*/
-
         [JsonIgnore]
         public string CreatedAt { get; set; }
 
@@ -45,9 +93,6 @@ namespace DataJson
 
         [JsonProperty(PropertyName = "Description")]
         public string Desc { get; set; }
-
-        [JsonProperty(PropertyName = "Location")]
-        public string Loc { get; set; }
 
         [JsonProperty(PropertyName = "Year")]
         public int Year { get; set; }
@@ -58,6 +103,24 @@ namespace DataJson
         [JsonProperty(PropertyName = "nc_prk2___un-offices_id")]
         public int OfficeId { get; set; }
 
+        [JsonProperty(PropertyName = "Latitude")]
+        public float Latitude { get; set; }
+
+        [JsonProperty(PropertyName = "Longitude")]
+        public float Longitude { get; set; }
+
+        [JsonProperty(PropertyName = "City")]
+        public string City { get; set; }
+
+        [JsonProperty(PropertyName = "Country")]
+        public string Country { get; set; }
+
+        [JsonProperty(PropertyName = "sdgs")] 
+        public int NumSDGs { get; set; }
+
+        [JsonProperty(PropertyName = "nc_prk2___nc_m2m_qpbzx054jus")]
+        public List<TableMap> TableMapList { get; set; }
+
         [JsonProperty(PropertyName = "topic-areas")]
         public Topic Topic { get; set; }
 
@@ -66,8 +129,9 @@ namespace DataJson
 
     }
 
-    public class Root
+    public class ImpactList
     {
-        public List<Impact> list { get; set; }
+        [JsonProperty(PropertyName = "list")]
+        public List<Impact> AllImpacts { get; set; }
     }
 }

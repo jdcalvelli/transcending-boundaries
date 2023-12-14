@@ -33,7 +33,7 @@ public class DatabaseSingleton : MonoBehaviour
     {
         // creating the request itself
         UnityWebRequest request = UnityWebRequest.Get(
-            $"https://noco.jdcalvelli.me/api/v1/db/data/v1/p364wcopjitnzvx/impacts?nested[un-offices][fields]=*&nested[topic-areas][fields]=*)"
+            $"https://noco.jdcalvelli.me/api/v1/db/data/v1/p364wcopjitnzvx/impacts?nested[un-offices][fields]=*&nested[topic-areas][fields]=*&limit=50)"
             );
         
         // setting the header with the required authentication
