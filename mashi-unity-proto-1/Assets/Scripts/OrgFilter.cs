@@ -20,6 +20,7 @@ public class OrgFilter : MonoBehaviour
     public MainText mainText;
 
     public LandmarkObject currentOrg;
+    public MainContributions mainContributions;
 
     void Start() { }
 
@@ -29,9 +30,10 @@ public class OrgFilter : MonoBehaviour
     {
         orgHeadingButton.gameObject.SetActive(true);
         orgHeadingButton.ButtonSetup(library.topicLibrary[(int)TopicLibrary.currentTopic][0], org);
-        
+
         // currently don't have contributions
-        // orgContributions.gameObject.SetActive(true);
+        orgContributions.contributionsText.text = mainContributions.GetMainContribution(library.topicLibrary[(int)TopicLibrary.currentTopic][0], org);
+        orgContributions.gameObject.SetActive(true);
 
         mainText.SetHeadingAndBody("", OrgNameToData.nameToDescription[org]);
         orgRelevantList.SetActive(false);

@@ -11,6 +11,7 @@ public class DatabaseRetrievalTest : MonoBehaviour
     public ImpactList allImpacts;
 
     public bool isDataPopulating = false;
+    public bool isDataFinishedRetrieving = false;
 
     public OrgFilter orgFilter;
 
@@ -42,6 +43,7 @@ public class DatabaseRetrievalTest : MonoBehaviour
             topic.impactsByTopic = allImpacts.impacts.Where(i => i.topic.title == topic.label).ToList();
             PrepareImpactsByOffice(topic);
         }
+        isDataFinishedRetrieving = true;
     }
 
     private void PrepareImpactsByOffice(TopicSetup topic)

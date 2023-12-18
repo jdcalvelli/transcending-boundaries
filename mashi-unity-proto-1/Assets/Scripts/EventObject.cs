@@ -73,7 +73,8 @@ public class EventObject : MonoBehaviour
 
     IEnumerator WaitToSetText(Impact impact)
     {
-        while (eventMarker == null) yield return null;
+        while (eventMarker == null) yield return null; // doesn't work smoothly anymore? null object reference ~35 times 
+        // yield return new WaitForSeconds(3.0f);
         eventMarker.GetComponent<EventUI>().SetInfoText(impact);
     }
 

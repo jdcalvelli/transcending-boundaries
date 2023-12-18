@@ -16,6 +16,7 @@ public class EventUI : MonoBehaviour
     private string headingText = "";
     private string bodyText = "";
     private string locationText = "";
+    private (int, int, int) SDGs;
 
     [SerializeField]
     private GameObject captionTop;
@@ -44,6 +45,7 @@ public class EventUI : MonoBehaviour
     {
         headingText = impact.title;
         bodyText = impact.desc;
+
         if (impact.city != null) locationText = $"{impact.city}, {impact.country}";
         else locationText = impact.country;
 
@@ -97,7 +99,8 @@ public class EventUI : MonoBehaviour
         if (headingText == "") headingText = "Title of Recent Event"; 
         if (bodyText == "") bodyText = "A brief description of the event and some context about how it may be a kind of milestone.";
 
-
+        SDGs = SdgsData.idToSDGs[headingText];
+        eventPanel.GetComponent<SetSdgs>().SetSDGImages(SDGs);
         heading.text = headingText;
         body.text = bodyText;
         location.text = locationText;
